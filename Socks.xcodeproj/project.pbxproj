@@ -15,15 +15,26 @@
 		9823406E18DFC9DB0090C3FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823406D18DFC9DB0090C3FE /* main.m */; };
 		9823407218DFC9DB0090C3FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823407118DFC9DB0090C3FE /* AppDelegate.m */; };
 		9823407518DFC9DB0090C3FE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9823407318DFC9DB0090C3FE /* Main.storyboard */; };
-		9823407818DFC9DB0090C3FE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823407718DFC9DB0090C3FE /* ViewController.m */; };
-		9823407B18DFC9DB0090C3FE /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823407A18DFC9DB0090C3FE /* MyScene.m */; };
-		9823407D18DFC9DB0090C3FE /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 9823407C18DFC9DB0090C3FE /* Spaceship.png */; };
+		9823407818DFC9DB0090C3FE /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823407718DFC9DB0090C3FE /* GameViewController.m */; };
+		9823407B18DFC9DB0090C3FE /* SocksScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823407A18DFC9DB0090C3FE /* SocksScene.m */; };
 		9823407F18DFC9DB0090C3FE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9823407E18DFC9DB0090C3FE /* Images.xcassets */; };
 		9823408618DFC9DB0090C3FE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9823408518DFC9DB0090C3FE /* XCTest.framework */; };
 		9823408718DFC9DB0090C3FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9823405F18DFC9DB0090C3FE /* Foundation.framework */; };
 		9823408818DFC9DB0090C3FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9823406318DFC9DB0090C3FE /* UIKit.framework */; };
 		9823409018DFC9DB0090C3FE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9823408E18DFC9DB0090C3FE /* InfoPlist.strings */; };
 		9823409218DFC9DB0090C3FE /* SocksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823409118DFC9DB0090C3FE /* SocksTests.m */; };
+		9852A43F18E8CEA600CC63E2 /* SockSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 9852A43E18E8CEA600CC63E2 /* SockSprite.m */; };
+		9852A44719003B3D00CC63E2 /* pattern1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9852A44519003B3D00CC63E2 /* pattern1.png */; };
+		9852A44C190047B900CC63E2 /* pattern3.png in Resources */ = {isa = PBXBuildFile; fileRef = 9852A449190047B900CC63E2 /* pattern3.png */; };
+		9852A44D190047B900CC63E2 /* pattern4.png in Resources */ = {isa = PBXBuildFile; fileRef = 9852A44A190047B900CC63E2 /* pattern4.png */; };
+		9852A44E190047B900CC63E2 /* pattern2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9852A44B190047B900CC63E2 /* pattern2.png */; };
+		9852A4521901ADC400CC63E2 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9852A4511901ADC400CC63E2 /* MainViewController.m */; };
+		98A4A15C18E3D4F100EFBCF4 /* sock1.png in Resources */ = {isa = PBXBuildFile; fileRef = 98A4A15718E3D4F100EFBCF4 /* sock1.png */; };
+		98A4A15D18E3D4F100EFBCF4 /* sock2.png in Resources */ = {isa = PBXBuildFile; fileRef = 98A4A15818E3D4F100EFBCF4 /* sock2.png */; };
+		98A4A15E18E3D4F100EFBCF4 /* sock3.png in Resources */ = {isa = PBXBuildFile; fileRef = 98A4A15918E3D4F100EFBCF4 /* sock3.png */; };
+		98A4A15F18E3D4F100EFBCF4 /* sock4.png in Resources */ = {isa = PBXBuildFile; fileRef = 98A4A15A18E3D4F100EFBCF4 /* sock4.png */; };
+		98A4A16018E3D4F100EFBCF4 /* sock5.png in Resources */ = {isa = PBXBuildFile; fileRef = 98A4A15B18E3D4F100EFBCF4 /* sock5.png */; };
+		98B00F8F19046BCE0001CD0D /* Random.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B00F8E19046BCE0001CD0D /* Random.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,17 +60,31 @@
 		9823407018DFC9DB0090C3FE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9823407118DFC9DB0090C3FE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		9823407418DFC9DB0090C3FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		9823407618DFC9DB0090C3FE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		9823407718DFC9DB0090C3FE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		9823407918DFC9DB0090C3FE /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
-		9823407A18DFC9DB0090C3FE /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
-		9823407C18DFC9DB0090C3FE /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
+		9823407618DFC9DB0090C3FE /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		9823407718DFC9DB0090C3FE /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		9823407918DFC9DB0090C3FE /* SocksScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocksScene.h; sourceTree = "<group>"; };
+		9823407A18DFC9DB0090C3FE /* SocksScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocksScene.m; sourceTree = "<group>"; };
 		9823407E18DFC9DB0090C3FE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9823408418DFC9DB0090C3FE /* SocksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SocksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9823408518DFC9DB0090C3FE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9823408D18DFC9DB0090C3FE /* SocksTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SocksTests-Info.plist"; sourceTree = "<group>"; };
 		9823408F18DFC9DB0090C3FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9823409118DFC9DB0090C3FE /* SocksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocksTests.m; sourceTree = "<group>"; };
+		9852A43D18E8CEA600CC63E2 /* SockSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SockSprite.h; sourceTree = "<group>"; };
+		9852A43E18E8CEA600CC63E2 /* SockSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SockSprite.m; sourceTree = "<group>"; };
+		9852A44519003B3D00CC63E2 /* pattern1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pattern1.png; path = ../../Images/socks/pattern1.png; sourceTree = "<group>"; };
+		9852A449190047B900CC63E2 /* pattern3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pattern3.png; path = ../../Images/socks/pattern3.png; sourceTree = "<group>"; };
+		9852A44A190047B900CC63E2 /* pattern4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pattern4.png; path = ../../Images/socks/pattern4.png; sourceTree = "<group>"; };
+		9852A44B190047B900CC63E2 /* pattern2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pattern2.png; path = ../../Images/socks/pattern2.png; sourceTree = "<group>"; };
+		9852A4501901ADC400CC63E2 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		9852A4511901ADC400CC63E2 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		98A4A15718E3D4F100EFBCF4 /* sock1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sock1.png; path = ../../Images/socks/sock1.png; sourceTree = "<group>"; };
+		98A4A15818E3D4F100EFBCF4 /* sock2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sock2.png; path = ../../Images/socks/sock2.png; sourceTree = "<group>"; };
+		98A4A15918E3D4F100EFBCF4 /* sock3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sock3.png; path = ../../Images/socks/sock3.png; sourceTree = "<group>"; };
+		98A4A15A18E3D4F100EFBCF4 /* sock4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sock4.png; path = ../../Images/socks/sock4.png; sourceTree = "<group>"; };
+		98A4A15B18E3D4F100EFBCF4 /* sock5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sock5.png; path = ../../Images/socks/sock5.png; sourceTree = "<group>"; };
+		98B00F8E19046BCE0001CD0D /* Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Random.m; sourceTree = "<group>"; };
+		98B00F9019046C340001CD0D /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,14 +146,20 @@
 		9823406718DFC9DB0090C3FE /* Socks */ = {
 			isa = PBXGroup;
 			children = (
+				98A4A15618E3D4C000EFBCF4 /* socks-images */,
+				9823407318DFC9DB0090C3FE /* Main.storyboard */,
+				9852A4501901ADC400CC63E2 /* MainViewController.h */,
+				98B00F9019046C340001CD0D /* Random.h */,
+				98B00F8E19046BCE0001CD0D /* Random.m */,
+				9852A4511901ADC400CC63E2 /* MainViewController.m */,
 				9823407018DFC9DB0090C3FE /* AppDelegate.h */,
 				9823407118DFC9DB0090C3FE /* AppDelegate.m */,
-				9823407318DFC9DB0090C3FE /* Main.storyboard */,
-				9823407618DFC9DB0090C3FE /* ViewController.h */,
-				9823407718DFC9DB0090C3FE /* ViewController.m */,
-				9823407918DFC9DB0090C3FE /* MyScene.h */,
-				9823407A18DFC9DB0090C3FE /* MyScene.m */,
-				9823407C18DFC9DB0090C3FE /* Spaceship.png */,
+				9823407618DFC9DB0090C3FE /* GameViewController.h */,
+				9823407718DFC9DB0090C3FE /* GameViewController.m */,
+				9823407918DFC9DB0090C3FE /* SocksScene.h */,
+				9823407A18DFC9DB0090C3FE /* SocksScene.m */,
+				9852A43D18E8CEA600CC63E2 /* SockSprite.h */,
+				9852A43E18E8CEA600CC63E2 /* SockSprite.m */,
 				9823407E18DFC9DB0090C3FE /* Images.xcassets */,
 				9823406818DFC9DB0090C3FE /* Supporting Files */,
 			);
@@ -162,6 +193,22 @@
 				9823408E18DFC9DB0090C3FE /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		98A4A15618E3D4C000EFBCF4 /* socks-images */ = {
+			isa = PBXGroup;
+			children = (
+				9852A44519003B3D00CC63E2 /* pattern1.png */,
+				9852A44B190047B900CC63E2 /* pattern2.png */,
+				9852A449190047B900CC63E2 /* pattern3.png */,
+				9852A44A190047B900CC63E2 /* pattern4.png */,
+				98A4A15718E3D4F100EFBCF4 /* sock1.png */,
+				98A4A15818E3D4F100EFBCF4 /* sock2.png */,
+				98A4A15918E3D4F100EFBCF4 /* sock3.png */,
+				98A4A15A18E3D4F100EFBCF4 /* sock4.png */,
+				98A4A15B18E3D4F100EFBCF4 /* sock5.png */,
+			);
+			name = "socks-images";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,10 +287,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9852A44D190047B900CC63E2 /* pattern4.png in Resources */,
 				9823406C18DFC9DB0090C3FE /* InfoPlist.strings in Resources */,
+				98A4A16018E3D4F100EFBCF4 /* sock5.png in Resources */,
+				98A4A15E18E3D4F100EFBCF4 /* sock3.png in Resources */,
+				98A4A15C18E3D4F100EFBCF4 /* sock1.png in Resources */,
+				9852A44E190047B900CC63E2 /* pattern2.png in Resources */,
 				9823407F18DFC9DB0090C3FE /* Images.xcassets in Resources */,
-				9823407D18DFC9DB0090C3FE /* Spaceship.png in Resources */,
 				9823407518DFC9DB0090C3FE /* Main.storyboard in Resources */,
+				9852A44719003B3D00CC63E2 /* pattern1.png in Resources */,
+				9852A44C190047B900CC63E2 /* pattern3.png in Resources */,
+				98A4A15D18E3D4F100EFBCF4 /* sock2.png in Resources */,
+				98A4A15F18E3D4F100EFBCF4 /* sock4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,9 +317,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9823407B18DFC9DB0090C3FE /* MyScene.m in Sources */,
-				9823407818DFC9DB0090C3FE /* ViewController.m in Sources */,
+				9823407B18DFC9DB0090C3FE /* SocksScene.m in Sources */,
+				9823407818DFC9DB0090C3FE /* GameViewController.m in Sources */,
+				98B00F8F19046BCE0001CD0D /* Random.m in Sources */,
 				9823407218DFC9DB0090C3FE /* AppDelegate.m in Sources */,
+				9852A43F18E8CEA600CC63E2 /* SockSprite.m in Sources */,
+				9852A4521901ADC400CC63E2 /* MainViewController.m in Sources */,
 				9823406E18DFC9DB0090C3FE /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -393,8 +451,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Socks/Socks-Prefix.pch";
 				INFOPLIST_FILE = "Socks/Socks-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -407,8 +467,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Socks/Socks-Prefix.pch";
 				INFOPLIST_FILE = "Socks/Socks-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -472,6 +534,7 @@
 				9823409718DFC9DB0090C3FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9823409818DFC9DB0090C3FE /* Build configuration list for PBXNativeTarget "SocksTests" */ = {
 			isa = XCConfigurationList;
@@ -480,6 +543,7 @@
 				9823409A18DFC9DB0090C3FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
