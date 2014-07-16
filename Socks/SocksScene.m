@@ -8,81 +8,98 @@
 
 #import "SocksScene.h"
 #import "SockSprite.h"
+#import "SockMonster.h"
 #import "Random.h"
+#import "GameDelegate.h"
 
 enum ColliosionBitMask
 {
-    SockMask = 0x1
+    SockMask = 0x1 << 0,
+    WaterMask = 0x1 << 1,
 };
 
+const int PAUSE_STEPS = 10; // higher number causes longer pausing
 
 @implementation SocksScene
+@synthesize gameDelegate;
+@synthesize pause_lbl;
 
--(id)initWithSize:(CGSize)size {
-    if (self = [super initWithSize:size]) {
+-(id)initWithSize:(CGSize)size
+{
+    if (self = [super initWithSize:size])
+    {
         last_create = 0;
         last_create_attempt = 0;
+        system_paused = NO;
+        button_paused = NO;
+        pause_steps_to_take = 0;
+        unpause_steps_to_take = 0;
+        last_frame_time = 0;
+        running_time = 0;
+        water_height = size.height * .1;
+        self.physicsWorld.gravity = CGVectorMake(0, 0);
+        self.physicsWorld.contactDelegate = self;
+        self.scaleMode = SKSceneScaleModeAspectFill;
+
+        // must be our bottom sprite, so gets added first
+        [self flowBackground: size];
+    
+        CGSize water_size = CGSizeMake(size.width, water_height);
+        [self createWater: water_size];
         
-        for (pattern_end = 1;;pattern_end++) {
-            NSString *pattern_name = [NSString stringWithFormat: @"pattern%d.png", pattern_end];
-            NSString *full_path = [[NSBundle mainBundle] pathForResource: pattern_name ofType: nil];
-            if (![[NSFileManager defaultManager] fileExistsAtPath: full_path])
-                break;
-        }
-        
-        for(socks_end = 1;;socks_end++)
-        {
-            NSString *sock_name = [NSString stringWithFormat: @"sock%d.png", socks_end];
-            NSString *full_path = [[NSBundle mainBundle] pathForResource: sock_name ofType: nil];
-            if (![[NSFileManager defaultManager] fileExistsAtPath: full_path])
-                break;
-        }
+        [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(systemPause) name: @"AppBg" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(systemUnpause) name: @"AppFg" object:nil];
     }
     
     return self;
 }
 
--(void)loadTextures:(float_callback) progress_cb
+-(void)dealloc
 {
-    sockTextures = [[NSMutableArray alloc]initWithCapacity: (socks_end - 1) * (pattern_end - 1)];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)flowBackground: (CGSize) size
+{
+    SKSpriteNode *bg1 = [SKSpriteNode spriteNodeWithImageNamed: @"washer-drum-square.png"];
+    SKSpriteNode *bg2 = [SKSpriteNode spriteNodeWithImageNamed: @"washer-drum-square.png"];
+    SKSpriteNode *bg3 = [SKSpriteNode spriteNodeWithImageNamed: @"washer-drum-square.png"];
+
+    CGFloat sq_size = self.size.width;
+    bg3.size = bg2.size = bg1.size = CGSizeMake(sq_size, sq_size);
     
-    NSMutableArray *patterns = [[NSMutableArray alloc] initWithCapacity: (pattern_end - 1)];
+    CGPoint p1 = CGPointMake(self.size.width * .5, self.size.height - sq_size * (0 + .5));
+    CGPoint p2 = CGPointMake(self.size.width * .5, self.size.height - sq_size * (1 + .5));
+    CGPoint p3 = CGPointMake(self.size.width * .5, self.size.height - sq_size * (2 + .5));
+    bg1.position = p1;
+    bg2.position = p2;
+    bg3.position = p3;
+    SKAction *scroll_up = [SKAction moveByX:0 y:sq_size duration:10];
+    SKAction *move_bottom_stack = [SKAction moveTo:p3 duration:0];
+    SKAction *full_sequence = [SKAction repeatActionForever: [SKAction sequence:@[move_bottom_stack, scroll_up, scroll_up, scroll_up]]];
     
-    for (int pattern = 1; pattern < pattern_end;pattern++)
-    {
-        NSString *pattern_name = [NSString stringWithFormat: @"pattern%d.png", pattern];
-        CIImage *pattern = [CIImage imageWithCGImage:[[UIImage imageNamed: pattern_name] CGImage]];
-        [patterns addObject: pattern];
-    }
+    [bg1 runAction: [SKAction sequence: @[scroll_up, full_sequence]]];
+    [bg2 runAction: [SKAction sequence: @[scroll_up, scroll_up, full_sequence]]];
+    [bg3 runAction: [SKAction sequence: @[scroll_up, scroll_up, scroll_up, full_sequence]]];
+    [self addChild:bg1];
+    [self addChild:bg2];
+    [self addChild:bg3];
+}
+
+-(void)createWater:(CGSize)size
+{
+    UIColor* transparent =[UIColor colorWithRed:0 green:0.1 blue:0.9 alpha:0.5];
+    SKSpriteNode *water = [SKSpriteNode spriteNodeWithColor: transparent size:size];
+    water.position = CGPointMake(size.width/2, size.height/2);
     
-    const float total = (socks_end - 1) * (pattern_end - 1);
-    float done =0;
+    CGSize phys_size = size;
+    phys_size.height *= .6;
+    water.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize: phys_size];
+    water.physicsBody.contactTestBitMask = SockMask;
+    water.physicsBody.categoryBitMask = WaterMask;
+    water.physicsBody.collisionBitMask = 0;
     
-    for(int socks = 1; socks < socks_end;socks++)
-    {
-        NSString *sock_name = [NSString stringWithFormat: @"sock%d.png", socks];
-        for (CIImage* pattern in patterns)
-        {
-            CIContext *context = [CIContext contextWithOptions:nil];
-            CIImage *inputImage = [CIImage imageWithCGImage:[[UIImage imageNamed:sock_name] CGImage]];
-            
-            CIFilter *patternFilter = [CIFilter filterWithName:@"CIMinimumCompositing"];
-            [patternFilter setValue:inputImage forKey: @"inputImage"];
-            [patternFilter setValue:pattern forKey: @"inputBackgroundImage"];
-            CIImage *result = [patternFilter outputImage];
-            CGImageRef cgImage = [context createCGImage:result fromRect:[result extent]];
-            SKTexture *sock_txture = [SKTexture textureWithCGImage: cgImage];
-            [sockTextures addObject: sock_txture];
-            CGImageRelease(cgImage);
- 
-            progress_cb(++done/ total);
-        }
-    }
-    
-    self.physicsWorld.gravity = CGVectorMake(0, 0);
-    self.physicsWorld.contactDelegate = self;
-    
-    last_create = 0;
+    [self addChild: water];
 }
 
 -(void)flowSock:(SockSprite*)sock
@@ -90,32 +107,39 @@ enum ColliosionBitMask
     CGFloat degree = arc4random_uniform_float(-M_PI_2, +M_PI_2, .01);
     CGSize size = self.size;
     CGPoint pos = sock.position;
-    CGFloat duration = 13 + 10.0 * (pos.x / (CGFloat)size.width);
-    SKAction *sock_move = [SKAction moveToY:0 duration: duration];
-    [sock runAction: [SKAction rotateByAngle: degree duration:duration]
-            withKey: @"rotate"];
-    [sock runAction: [SKAction sequence: @[sock_move,
-                                           [SKAction removeFromParent]]]
-                                            withKey: @"flow"];
+    CGFloat speed = 25.0 + 25.0 * (pos.x / (CGFloat)size.width); // pixels per sec
+    
+    [sock startFlowWith:speed turn:degree];
 }
+
+- (BOOL)resignFirstResponder
+{
+    return [super resignFirstResponder];
+}
+
 
 - (void) physicsOnSock:(SockSprite *)sock
 {
     sock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize: CGSizeMake(sock.size.width * .2,
-                                                                          sock.size.height * .2)];
+                   sock.size.height * .2)];
     
     sock.physicsBody.mass = 0;
     sock.physicsBody.categoryBitMask = SockMask;
-    sock.physicsBody.collisionBitMask = 0;// we want the socks to go through each other
     sock.physicsBody.contactTestBitMask = SockMask;
+
+    // we want the socks to go through each other
+    sock.physicsBody.collisionBitMask = 0;
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (self.paused) return;
     
     /* Called when a touch begins */
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
 
+        // we move one sock at a time
         SKNode *touch_node = [self nodeAtPoint: location];
         if (touch_node == nil)
             continue;
@@ -128,11 +152,14 @@ enum ColliosionBitMask
     }
 }
 
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
+
+        // we need the socks at the old location, since we haven't moved them yet
         CGPoint old_location = [touch previousLocationInNode:self];
-        
+        // get them all since, the one we're moving might be behind another one
         NSArray *touch_nodes = [self nodesAtPoint: old_location];
         for (id touch_node in touch_nodes)
         {
@@ -140,10 +167,7 @@ enum ColliosionBitMask
                 continue;
             SockSprite *touch_sock = (SockSprite*) touch_node;
             if (touch_sock.moving_touch == touch) {
-                CGPoint pos = touch_sock.position;
-                pos.x += (location.x - old_location.x);
-                pos.y += (location.y - old_location.y);
-                touch_sock.position = pos;
+                touch_sock.position = location;
             }
         }
     }
@@ -156,20 +180,19 @@ enum ColliosionBitMask
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
-        CGPoint old_location = [touch previousLocationInNode:self];
         
+        // we need the socks at the old location, since we haven't moved them yet
+        CGPoint old_location = [touch previousLocationInNode:self];
+        // get them all since, the one we're moving might be behind another one
         NSArray *touch_nodes = [self nodesAtPoint: old_location];
         for (id touch_node in touch_nodes)
         {
             if (![touch_node isKindOfClass:[SockSprite class]])
                 continue;
+            
             SockSprite *touch_sock = (SockSprite*) touch_node;
             if (touch_sock.moving_touch == touch) {
-                CGPoint pos = touch_sock.position;
-                pos.x += (location.x - old_location.x);
-                pos.y += (location.y - old_location.y);
-                touch_sock.position = pos;
-                
+                touch_sock.position = location;
                 touch_sock.moving_touch = nil;
                 [self flowSock: touch_sock];
             }
@@ -177,22 +200,52 @@ enum ColliosionBitMask
     }
 }
 
+- (void)socksMatched:(SockSprite*)sockA with:(SockSprite*)sockB
+{
+    NSLog(@"got sock contact between %d %d", sockA.sock_number, sockB.sock_number);
+    
+    if (sockA.sock_number != sockB.sock_number)
+        return;
+    
+    // TODO animate + music
+    [sockA removeFromParent];
+    [sockB removeFromParent];
+    [gameDelegate socksMatched];
+}
+
+- (void)sockEnteredWater:(SockSprite*)sock
+{
+    NSLog(@"got contact between sock and water");
+    
+    SockMonster *monster = [SockMonster plainMonster: water_height];
+    monster.position = CGPointMake(sock.position.x, 0);
+    [self addChild: monster];
+    [monster animateSockEating:sock duration:1];
+    [gameDelegate sockLost];
+}
+
 - (void)didBeginContact:(SKPhysicsContact *)contact
 {
     if (contact.bodyA.categoryBitMask & SockMask &&
         contact.bodyB.categoryBitMask & SockMask)
     {
-        SockSprite *sockA = (SockSprite*)contact.bodyA.node;
-        SockSprite *sockB = (SockSprite*)contact.bodyB.node;
+        [self socksMatched:(SockSprite*)contact.bodyA.node
+                      with:(SockSprite*)contact.bodyB.node];
      
-        NSLog(@"got sock contact between %d %d", sockA.sock_number, sockB.sock_number);
-
-        if (sockA.sock_number == sockB.sock_number)
-        {
-            // TODO animate + music
-            [sockA removeFromParent];
-            [sockB removeFromParent];
-        }
+    }
+    else if (contact.bodyA.categoryBitMask & SockMask &&
+             contact.bodyB.categoryBitMask & WaterMask)
+    {
+        [self sockEnteredWater:(SockSprite*)contact.bodyA.node];
+    }
+    else if (contact.bodyA.categoryBitMask & WaterMask &&
+             contact.bodyB.categoryBitMask & SockMask)
+    {
+        [self sockEnteredWater:(SockSprite*)contact.bodyB.node];
+    }
+    else
+    {
+        NSLog(@"got unknown contact");
     }
 }
 
@@ -244,36 +297,163 @@ enum ColliosionBitMask
     }
     
     NSLog(@"Creating random sock");
-    return arc4random_uniform(sockTextures.count);
+    return arc4random_uniform([SockSprite totalSocks]);
 }
 
--(void)update:(CFTimeInterval)currentTime {
+-(void)update:(CFTimeInterval)currentTime
+{
     /* Called before each frame is rendered */
-    if (last_create_attempt == 0 ||
-        currentTime - last_create_attempt > 2)
+    CFTimeInterval timeDelta = currentTime - last_frame_time;
+    last_frame_time = currentTime;
+
+    if (system_paused) return;
+    
+    if (button_paused)
     {
-        last_create_attempt = currentTime;
+        if (pause_steps_to_take > 0)
+        {
+            --pause_steps_to_take;
+            [self pausingStep: +1];
+            
+            // a small race cond may increase unpause_steps_to_take
+            // even as we're still pausing, so we return here
+        }
+        else if (unpause_steps_to_take > 0)
+        {
+            --unpause_steps_to_take;
+            [self pausingStep: -1];
+            
+            if (unpause_steps_to_take == 0)
+            {
+                self.paused = NO; // unpause now
+                button_paused = NO;
+            }
+        }
+        
+        return;
+    }
+    
+    // not paused
+    running_time += timeDelta;
+    
+    if (last_create_attempt == 0 ||
+        running_time - last_create_attempt > 2)
+    {
+        last_create_attempt = running_time;
         
         int sock_no = [self pickASock];
         if (sock_no < 0)
             return; // no sock this time
         
-        last_create = currentTime;
+        last_create = running_time;
         
         CGFloat at_x = arc4random_uniform(self.size.width - 80) + 30;
         CGPoint pos = CGPointMake(at_x, self.size.height);
         
         //NSLog(@"Creating sock sprite number %d at (%d, %d)", sock_no, (int)pos.x, (int)pos.y);
         
-        SockSprite *sock = [SockSprite
-                            spriteNodeWithTexture: sockTextures[sock_no]
-                            size: CGSizeMake(40,60)];
-        sock.position = pos;
-        sock.sock_number = sock_no;
+        SockSprite *sock = [SockSprite sockNumber: sock_no];
         
+        sock.position = pos;        
         [self flowSock: sock];
         [self physicsOnSock:sock];
         [self addChild:sock];
+    }
+}
+
+- (void)pausingStep: (int) direction
+{
+    // called from update as we're pausing
+    // direction is either +1 or -1
+    
+    for (id child in [self children])
+    {
+        if (![child isKindOfClass: [SockSprite class]])
+            continue;
+        
+        SockSprite* sock = (SockSprite*)child;
+        CGPoint pos = sock.position;
+        pos.x += sock.pause_speed.x * direction;
+        pos.y += sock.pause_speed.y * direction;
+        sock.position = pos;
+    }
+}
+
+- (void)systemPause
+{
+    system_paused = YES;
+    self.paused = YES;
+    // if we're paused, stay paused
+    // if we're pausing, keep pausing
+    // if we're system paused, stay that way
+}
+
+- (void)systemUnpause
+{
+    system_paused = NO;
+    self.paused = button_paused;
+}
+
+- (void)pauseUnpause: (id)sender
+{
+    if (system_paused) return;
+    
+    BOOL to_pause = !button_paused;
+    
+    UIButton *btn = (UIButton*)sender;
+    
+    if (!to_pause && (unpause_steps_to_take != 0 || pause_steps_to_take != 0))
+        return; // we have more steps to take
+
+    btn.selected = to_pause;
+
+    if (to_pause)
+    {
+        pause_steps_to_take = PAUSE_STEPS;
+        unpause_steps_to_take = 0;
+        self.paused = YES;
+        button_paused = YES;
+
+        // move socks to the sides
+        int park_at_y = self.size.height - 40;
+        int park_at_x = 20;
+        
+        for (id child in [self children])
+        {
+            if (![child isKindOfClass: [SockSprite class]])
+                continue;
+
+            SockSprite* sock = (SockSprite*)child;
+            sock.pause_saved_position = sock.position;
+            sock.pause_speed = CGPointMake((park_at_x - sock.pause_saved_position.x) / PAUSE_STEPS,
+                                           (park_at_y - sock.pause_saved_position.y) / PAUSE_STEPS);
+            
+            if (park_at_x == 20)
+            {
+                park_at_x = self.size.width-20;
+            }
+            else
+            {
+                park_at_x = 20;
+                park_at_y = (park_at_y - 60 + (int)self.size.height) % (int)self.size.height;
+            }
+        }
+        
+        // tell user we're paused
+        self.pause_lbl = [SKLabelNode labelNodeWithFontNamed: @"Marker Felt Thin"];
+        [self.pause_lbl setText:@"PAUSED"];
+        self.pause_lbl.position = CGPointMake(self.size.width/2, self.size.height/2);
+        [self addChild: self.pause_lbl];
+    }
+    else
+    {
+        unpause_steps_to_take = PAUSE_STEPS;
+        
+        // remove the label
+        [self.pause_lbl removeFromParent];
+        self.pause_lbl = nil;
+        
+        // don't unpause ourselves, til all steps were reversed;
     }
 }
 

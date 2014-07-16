@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="jqs-sC-Tv9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="jqs-sC-Tv9">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -12,59 +12,117 @@
                         <viewControllerLayoutGuide type="top" id="lYv-Gi-5Mj"/>
                         <viewControllerLayoutGuide type="bottom" id="ylr-cN-PPa"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="bdc-N1-crn" customClass="SKView">
+                    <view key="view" contentMode="scaleToFill" id="bdc-N1-crn">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="IkH-8J-Xds">
-                                <rect key="frame" x="0.0" y="284" width="320" height="2"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="grey-bevel-640x88.png" translatesAutoresizingMaskIntoConstraints="NO" id="UcM-Zk-NOw">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="ZAG-jD-oHY"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8vL-Ra-F1O" customClass="SKView">
+                                <rect key="frame" x="0.0" y="60" width="320" height="508"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zop-nx-1lT">
+                                        <rect key="frame" x="0.0" y="407" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="25"/>
+                                        <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <size key="shadowOffset" width="-2" height="2"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YYg-ei-Yzx">
+                                        <rect key="frame" x="270" y="407" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="25"/>
+                                        <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <size key="shadowOffset" width="2" height="2"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4e-SY-eMD">
+                                <rect key="frame" x="276" y="16" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </progressView>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="5Va-7P-TVy"/>
+                                    <constraint firstAttribute="width" constant="44" id="GRe-uY-ns3"/>
+                                </constraints>
+                                <state key="normal" image="pause-outline.png"/>
+                                <state key="selected" image="pause-hilite.png"/>
+                                <state key="highlighted" image="pause-hilite.png"/>
+                                <connections>
+                                    <action selector="pauseUnpause:" destination="LVB-YS-i5n" eventType="touchUpInside" id="I4f-Rr-ZiY"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="washer-navy.png" highlightedImage="washer-green.png" translatesAutoresizingMaskIntoConstraints="NO" id="gnK-uL-r1m">
+                                <rect key="frame" x="148" y="25" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="swirl-navy.png" highlightedImage="swirl-green.png" translatesAutoresizingMaskIntoConstraints="NO" id="JcZ-9x-dJQ">
+                                <rect key="frame" x="181" y="25" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="drops-black.png" highlightedImage="drops-green.png" translatesAutoresizingMaskIntoConstraints="NO" id="TX4-Ah-iWE">
+                                <rect key="frame" x="115" y="25" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sox-falling.png" translatesAutoresizingMaskIntoConstraints="NO" id="PCH-ni-wG1">
+                                <rect key="frame" x="5" y="20" width="73" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" red="1" green="0.41401464776192476" blue="0.50173369291553027" alpha="1" colorSpace="calibratedRGB"/>
-                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                        <constraints>
+                            <constraint firstItem="y4e-SY-eMD" firstAttribute="trailing" secondItem="UcM-Zk-NOw" secondAttribute="trailing" id="8rQ-bZ-hPS"/>
+                            <constraint firstItem="y4e-SY-eMD" firstAttribute="bottom" secondItem="UcM-Zk-NOw" secondAttribute="bottom" id="Gph-eb-x5X"/>
+                            <constraint firstItem="UcM-Zk-NOw" firstAttribute="top" secondItem="bdc-N1-crn" secondAttribute="top" id="Nx2-yU-wBY"/>
+                        </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="568"/>
                     <connections>
-                        <outlet property="progressBar" destination="IkH-8J-Xds" id="57N-ZH-r9R"/>
+                        <outlet property="cycle_rinse" destination="TX4-Ah-iWE" id="hqi-KY-kJe"/>
+                        <outlet property="cycle_spin" destination="JcZ-9x-dJQ" id="IUG-Kt-BIF"/>
+                        <outlet property="cycle_wash" destination="gnK-uL-r1m" id="0Xi-6E-Ej6"/>
+                        <outlet property="lost_lbl" destination="Zop-nx-1lT" id="aHA-IJ-y9Z"/>
+                        <outlet property="pauseBtn" destination="y4e-SY-eMD" id="KMj-EW-n87"/>
+                        <outlet property="score_lbl" destination="YYg-ei-Yzx" id="gH3-WX-crP"/>
+                        <outlet property="skView" destination="8vL-Ra-F1O" id="yuI-eK-Fmy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="btX-cZ-eVz" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-605" y="-571"/>
+            <point key="canvasLocation" x="-615" y="-607"/>
         </scene>
-        <!--Main Win Controller-->
+        <!--Main View Controller-->
         <scene sceneID="WBZ-nb-8ga">
             <objects>
-                <viewController id="jqs-sC-Tv9" customClass="MainWinController" sceneMemberID="viewController">
+                <viewController id="jqs-sC-Tv9" customClass="MainViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Z5f-Eu-Ugk"/>
                         <viewControllerLayoutGuide type="bottom" id="RHx-pY-r5a"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2IH-0B-tA2">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SOX" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="knL-WZ-Mlh" colorLabel="IBBuiltInLabel-Red">
-                                <rect key="frame" x="111" y="20" width="258" height="114"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kos-Uf-TQt">
+                                <rect key="frame" x="111" y="506" width="99" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="258" id="3p5-LS-AQW"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="87"/>
-                                <color key="textColor" red="0.0" green="1" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kos-Uf-TQt">
-                                <rect key="frame" x="361" y="253" width="99" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="99" id="dKQ-h9-S0A"/>
+                                    <constraint firstAttribute="width" constant="99" id="357-8W-LLC"/>
+                                    <constraint firstAttribute="height" constant="36" id="q3G-90-W7j"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="31"/>
                                 <state key="normal" title="Start">
@@ -74,27 +132,52 @@
                                     <segue destination="LVB-YS-i5n" kind="modal" id="aAT-UB-4eu"/>
                                 </connections>
                             </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="1jq-b9-xnf">
+                                <rect key="frame" x="0.0" y="204" width="320" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="z2g-D2-BFp"/>
+                                </constraints>
+                                <color key="progressTintColor" red="0.40000000596046448" green="1" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                            </progressView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sox-falling.png" translatesAutoresizingMaskIntoConstraints="NO" id="lmM-tF-zDH">
+                                <rect key="frame" x="37" y="32" width="243" height="116"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Kos-Uf-TQt" firstAttribute="top" secondItem="Z5f-Eu-Ugk" secondAttribute="bottom" constant="253" id="0ih-gZ-izQ"/>
-                            <constraint firstItem="knL-WZ-Mlh" firstAttribute="centerX" secondItem="2IH-0B-tA2" secondAttribute="centerX" id="0ja-pa-hB2"/>
-                            <constraint firstItem="knL-WZ-Mlh" firstAttribute="top" secondItem="2IH-0B-tA2" secondAttribute="top" constant="20" symbolic="YES" id="3iD-G7-JWu"/>
-                            <constraint firstAttribute="bottom" secondItem="Kos-Uf-TQt" secondAttribute="bottom" constant="20" symbolic="YES" id="qct-kX-WpH"/>
-                            <constraint firstAttribute="trailing" secondItem="Kos-Uf-TQt" secondAttribute="trailing" constant="20" symbolic="YES" id="qpx-dC-ipG"/>
+                            <constraint firstItem="1jq-b9-xnf" firstAttribute="leading" secondItem="2IH-0B-tA2" secondAttribute="leading" id="gyQ-g2-y1r"/>
+                            <constraint firstItem="RHx-pY-r5a" firstAttribute="top" secondItem="Kos-Uf-TQt" secondAttribute="bottom" constant="26" id="hZq-0x-iJm"/>
                         </constraints>
-                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <connections>
+                        <outlet property="progressBar" destination="1jq-b9-xnf" id="zax-zY-pyM"/>
+                        <outlet property="startBtn" destination="Kos-Uf-TQt" id="5UG-JX-yfb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIu-CU-HYR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1388" y="-306"/>
+            <point key="canvasLocation" x="-1408" y="-300"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="drops-black.png" width="128" height="128"/>
+        <image name="drops-green.png" width="128" height="128"/>
+        <image name="grey-bevel-640x88.png" width="640" height="88"/>
+        <image name="pause-hilite.png" width="80" height="80"/>
+        <image name="pause-outline.png" width="80" height="80"/>
+        <image name="sox-falling.png" width="730" height="350"/>
+        <image name="swirl-green.png" width="128" height="128"/>
+        <image name="swirl-navy.png" width="128" height="128"/>
+        <image name="washer-green.png" width="128" height="128"/>
+        <image name="washer-navy.png" width="128" height="128"/>
+    </resources>
+    <color key="tintColor" red="0.0" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <nil key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
 </document>

@@ -7,22 +7,34 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
-@class SockSprite;
 
-typedef void(^float_callback)(float);
+@protocol GameDelegate;
+@class SockSprite;
+@class Score;
 
 @interface SocksScene : SKScene <SKPhysicsContactDelegate>
 {
-    int pattern_end;
-    int socks_end;
     CFTimeInterval last_create;
     CFTimeInterval last_create_attempt;
-    NSMutableArray *sockTextures;
+
+    BOOL system_paused;
+    BOOL button_paused;
     
+    int pause_steps_to_take;   // steps left to take pausing
+    int unpause_steps_to_take; // steps left to take unpausing
+    CGFloat water_height;
+    
+    CFTimeInterval last_frame_time;
+    CFTimeInterval running_time; // time we've been running unpaused
 }
 
--(void)loadTextures:(float_callback) progress_cb;
+@property(nonatomic, retain) SKLabelNode *pause_lbl;
+@property(nonatomic, retain) id<GameDelegate> gameDelegate;
+
+-(void)createWater: (CGSize) size;
+-(void)flowBackground: (CGSize) size;
 -(void)flowSock:(SockSprite*)sock;
 -(void)physicsOnSock:(SockSprite*)sock;
+-(void)pauseUnpause:(id)button;
 
 @end

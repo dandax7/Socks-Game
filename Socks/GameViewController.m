@@ -8,53 +8,69 @@
 
 #import "GameViewController.h"
 #import "SocksScene.h"
+#import "SockSprite.h"
 
 @implementation GameViewController
-@synthesize progressBar;
+@synthesize socksScene;
+@synthesize skView;
+@synthesize lost_lbl;
+@synthesize score_lbl;
+@synthesize cycle_rinse;
+@synthesize cycle_spin;
+@synthesize cycle_wash;
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
+    lost_socks = 0;
+    score = 0;
+    score_for_sock = 10;
+    
+    NSLog(@"appeared");
+    
     // Configure the view.
-    SKView * skView = (SKView *)self.view;
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
+    self.skView.showsFPS = YES;
+    self.skView.showsNodeCount = YES;
     
     // self bounds
-    CGRect bounds = skView.bounds;
-    bounds.size.height -= 100;
-    [skView setBounds:bounds];
+    CGRect bounds = self.skView.bounds;
+    self.socksScene = [SocksScene sceneWithSize:bounds.size];
+    self.socksScene.gameDelegate = self;
+    [self.skView presentScene: self.socksScene];
+    
+    //self.socksScene.speed = 10;
+    
+    
+    // start at rinse
+    self.cycle_rinse.highlighted = YES;
+}
 
-    SKScene * progressScene = [SKScene sceneWithSize:bounds.size];
-    progressScene.backgroundColor = [UIColor blueColor];
-    [skView presentScene: progressScene];
-    
-    // Create and configure the scene.
-    SocksScene * scene = [SocksScene sceneWithSize:bounds.size];
-    scene.backgroundColor = [UIColor greenColor];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
+- (void) sockLost
+{
+    ++lost_socks;
+    lost_lbl.text = [NSString stringWithFormat:@"%d", lost_socks];
 
-    progressBar.hidden = NO;
-    progressBar.progress = 0.0;
+    return;
+    
+    const NSTimeInterval burst_time = 1;
 
-    // this block will bg load the texture
+    CGRect orig_frame = lost_lbl.frame;
+    CGRect blow_frame = orig_frame;
+    blow_frame.size.height *= 2;
+    blow_frame.size.width *= 2;
     
-    float_callback progress = ^(float p){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [progressBar setProgress: p];
-        });
-    };
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [scene loadTextures: progress];
-    
-        // Present the scene. on the main queue
-        dispatch_async(dispatch_get_main_queue(), ^{
-            progressBar.hidden = YES;
-            [skView presentScene: scene transition: [SKTransition fadeWithDuration:2]];
-        });
-    });
+   // void (^blow_up) = ^{lost_lbl.frame = blow_frame; };
+   // void (^restore(BOOL)) = ^{lost_lbl.frame = orig_frame; };
+   // [UIView animateWithDuration:burst_time/2
+   //                  animations:^{lost_lbl.frame = blow_frame; }
+   //                  completion:^(BOOL finished){{lost_lbl.frame = orig_frame;} } ];
+}
+
+- (void) socksMatched
+{
+    score += score_for_sock;
+    score_lbl.text = [NSString stringWithFormat:@"%d", score];
 }
 
 - (BOOL)shouldAutorotate
@@ -71,6 +87,11 @@
 {
     [super didReceiveMemoryWarning];
     // Release any cached data, images, etc that aren't in use.
+}
+
+-(void)pauseUnpause:(id)button;
+{
+    [self.socksScene pauseUnpause: button];
 }
 
 @end

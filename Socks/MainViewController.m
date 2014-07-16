@@ -7,12 +7,15 @@
 //
 
 #import "MainViewController.h"
+#import "SockSprite.h"
 
 @interface MainViewController ()
-
 @end
 
+
 @implementation MainViewController
+@synthesize progressBar;
+@synthesize startBtn;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +30,26 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    // this block will bg load the texture
+    
+    float_callback progress = ^(float p){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [progressBar setProgress: p];
+        });
+    };
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [SockSprite loadTextures: progress];
+        
+        // Present the scene. on the main queue
+        dispatch_async(dispatch_get_main_queue(), ^{
+            startBtn.enabled = YES;
+        });
+    });
 }
 
 - (void)didReceiveMemoryWarning
