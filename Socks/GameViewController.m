@@ -23,8 +23,14 @@
 {
     [super viewDidAppear:animated];
     
-    lost_socks = 0;
+    self.gameOverBtn.hidden = YES;
+    
+    lost_socks = 10;
+    lost_lbl.text = [NSString stringWithFormat:@"%d", lost_socks];
+
     score = 0;
+    score_lbl.text = [NSString stringWithFormat:@"%d", score];
+
     score_for_sock = 10;
     
     NSLog(@"appeared");
@@ -39,38 +45,73 @@
     self.socksScene.gameDelegate = self;
     [self.skView presentScene: self.socksScene];
     
-    //self.socksScene.speed = 10;
-    
-    
     // start at rinse
+    [self startRinse];
+}
+
+- (void) gameOver
+{
+    self.socksScene.speed = 1;
+    self.gameOverBtn.hidden = NO;
+    [self.socksScene gameOver];
+}
+
+-(IBAction) gameOverPressed:(id)sender
+{
+
+}
+
+- (void)startRinse
+{
+    self.socksScene.speed = 1;
     self.cycle_rinse.highlighted = YES;
+    self.cycle_wash.highlighted = NO;
+    self.cycle_spin.highlighted = NO;
+    [self performSelector:@selector(startWash) withObject:nil afterDelay:20];
+}
+
+- (void)startWash
+{
+    self.socksScene.speed = 1.5;
+    self.cycle_rinse.highlighted = NO;
+    self.cycle_wash.highlighted = YES;
+    self.cycle_spin.highlighted = NO;
+    [self performSelector:@selector(startSpin) withObject:nil afterDelay:20];
+}
+
+- (void)startSpin
+{
+    self.socksScene.speed = 2;
+    self.cycle_rinse.highlighted = NO;
+    self.cycle_wash.highlighted = NO;
+    self.cycle_spin.highlighted = YES;
+    [self performSelector:@selector(startRinse) withObject:nil afterDelay:20];
 }
 
 - (void) sockLost
 {
-    ++lost_socks;
+    if (lost_socks)
+        --lost_socks;
+
     lost_lbl.text = [NSString stringWithFormat:@"%d", lost_socks];
-
-    return;
+    [self shake: lost_lbl];
     
-    const NSTimeInterval burst_time = 1;
-
-    CGRect orig_frame = lost_lbl.frame;
-    CGRect blow_frame = orig_frame;
-    blow_frame.size.height *= 2;
-    blow_frame.size.width *= 2;
-    
-   // void (^blow_up) = ^{lost_lbl.frame = blow_frame; };
-   // void (^restore(BOOL)) = ^{lost_lbl.frame = orig_frame; };
-   // [UIView animateWithDuration:burst_time/2
-   //                  animations:^{lost_lbl.frame = blow_frame; }
-   //                  completion:^(BOOL finished){{lost_lbl.frame = orig_frame;} } ];
+    if (lost_socks <= 0)
+        [self gameOver];
 }
 
-- (void) socksMatched
+- (void) shake: (UIView*) v
+{
+    CGPoint old_center = v.center;
+    CGPoint new_center = CGPointMake(old_center.x + 20, old_center.y);
+    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:.2 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut animations:^{v.center = new_center;v.center = old_center;} completion:nil];
+}
+
+- (int) socksMatched
 {
     score += score_for_sock;
     score_lbl.text = [NSString stringWithFormat:@"%d", score];
+    return score_for_sock;
 }
 
 - (BOOL)shouldAutorotate

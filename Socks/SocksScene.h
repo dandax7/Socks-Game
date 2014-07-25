@@ -19,6 +19,7 @@
 
     BOOL system_paused;
     BOOL button_paused;
+    BOOL game_over;
     
     int pause_steps_to_take;   // steps left to take pausing
     int unpause_steps_to_take; // steps left to take unpausing
@@ -36,5 +37,6 @@
 -(void)flowSock:(SockSprite*)sock;
 -(void)physicsOnSock:(SockSprite*)sock;
 -(void)pauseUnpause:(id)button;
+-(void)gameOver;
 
 @end

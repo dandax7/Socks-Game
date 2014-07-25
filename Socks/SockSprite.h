@@ -17,6 +17,7 @@ typedef void(^float_callback)(float);
 @property (nonatomic) CGPoint pause_saved_position;
 @property (nonatomic) CGPoint pause_speed;
 @property (nonatomic) CGFloat fall_speed;
+@property (nonatomic) BOOL out_of_play;
 
 + (int) totalSocks;
 + (void)loadTextures: (float_callback) progress_cb;
@@ -24,6 +25,10 @@ typedef void(^float_callback)(float);
 
 - (void)startFlowWith: (CGFloat)speed turn:(CGFloat)degree;
 - (void)stopFlow;
+- (void)moveAwayByX:(CGFloat)x
+                  y:(CGFloat)y
+               with:(SockSprite*)other
+           duration:(NSTimeInterval)duration;
 - (CGPoint)futurePoint:(NSTimeInterval)future;
 @end
 

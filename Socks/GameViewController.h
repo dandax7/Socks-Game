@@ -22,6 +22,7 @@
 
 @property (nonatomic,retain) IBOutlet SKView *skView;
 @property (nonatomic,retain) IBOutlet UIButton *pauseBtn;
+@property (nonatomic,retain) IBOutlet UIButton *gameOverBtn;
 
 @property (nonatomic,retain) IBOutlet UILabel *lost_lbl;
 @property (nonatomic,retain) IBOutlet UILabel *score_lbl;
@@ -29,9 +30,10 @@
 @property (nonatomic,retain) IBOutlet UIImageView *cycle_wash;
 @property (nonatomic,retain) IBOutlet UIImageView *cycle_spin;
 
+-(IBAction) gameOverPressed:(id)sender;
 -(IBAction) pauseUnpause:(id)button;
 - (void) sockLost;
-- (void) socksMatched;
+- (int) socksMatched;
 
 @end
 

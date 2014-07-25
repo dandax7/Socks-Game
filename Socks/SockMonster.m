@@ -52,12 +52,11 @@
     return monster;
 }
 
-- (void) animateSockEating: (SockSprite*)sock duration:(NSTimeInterval)duration
+- (void) animateSockEating: (SockSprite*)sock
+                  duration: (NSTimeInterval)duration
+                completion: (void (^)(void))comp_block
 {
     NSArray *patterns = [SockMonster chompPatterns];
-    
-    //self.speed = .2;
-    //sock.speed = .2;
     
     NSTimeInterval to_sock = duration * .8;
     NSTimeInterval from_sock = duration - to_sock;
@@ -82,6 +81,7 @@
              [sock stopFlow];
              [self runAction: move_back_and_exit];
              [sock runAction: spin_shrink_move_and_exit];
+             comp_block();
          }];
 }
 

@@ -32,6 +32,7 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
         last_create_attempt = 0;
         system_paused = NO;
         button_paused = NO;
+        game_over = NO;
         pause_steps_to_take = 0;
         unpause_steps_to_take = 0;
         last_frame_time = 0;
@@ -57,6 +58,36 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)gameOver
+{
+    game_over = YES;
+    
+    for (SKNode *child in [self children])
+    {
+        if ([child isKindOfClass: [SockSprite class]])
+        {
+            [child runAction: [SKAction rotateToAngle:0 duration:1]];
+        }
+    }
+    
+    /*
+    int child_count = 0;
+    for (SKNode *child in [self children])
+    {
+        if ([child isKindOfClass: [SockSprite class]] ||
+            [child isKindOfClass: [SockMonster class]])
+        {
+            [child removeAllActions];
+            SKAction *wait = [SKAction waitForDuration: child_count * .5];
+            SKAction *disappear = [SKAction fadeAlphaTo: 0 duration: 1];
+            SKAction *shrink = [SKAction scaleBy:.3 duration:1];
+            SKAction *disashrink = [SKAction group: @[disappear, shrink]];
+            [child runAction: [SKAction sequence:@[wait, disashrink]]];
+            child_count++;
+        }
+    }*/
 }
 
 -(void)flowBackground: (CGSize) size
@@ -134,7 +165,8 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if (self.paused) return;
-    
+    if (game_over) return;
+
     /* Called when a touch begins */
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
@@ -147,13 +179,15 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
             continue;
 
         SockSprite *touch_sock = (SockSprite*) touch_node;
-        [touch_sock runAction: nil withKey: @"flow"];
+        [touch_sock stopFlow];
         touch_sock.moving_touch = touch;
     }
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    if (game_over) return;
+
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
 
@@ -178,6 +212,8 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (game_over) return;
+
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
         
@@ -192,8 +228,11 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
             
             SockSprite *touch_sock = (SockSprite*) touch_node;
             if (touch_sock.moving_touch == touch) {
-                touch_sock.position = location;
                 touch_sock.moving_touch = nil;
+                if (touch_sock.out_of_play)
+                    continue;
+                
+                touch_sock.position = location;
                 [self flowSock: touch_sock];
             }
         }
@@ -207,10 +246,25 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
     if (sockA.sock_number != sockB.sock_number)
         return;
     
-    // TODO animate + music
-    [sockA removeFromParent];
-    [sockB removeFromParent];
-    [gameDelegate socksMatched];
+    sockA.out_of_play = YES;
+    sockB.out_of_play = YES;
+    
+    int score = [gameDelegate socksMatched];
+    
+    SKLabelNode *plus = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    plus.fontSize = 20;
+    plus.fontColor = [UIColor greenColor];
+    plus.text = [NSString stringWithFormat: @"+%d", score];
+    plus.position = sockA.position;
+    SKAction *blow_up = [SKAction scaleBy: 2 duration:3];
+    SKAction *disappear = [SKAction fadeAlphaTo:0 duration:3];
+    SKAction *explode = [SKAction group: @[blow_up, disappear]];
+    [plus runAction: [SKAction sequence:@[explode, [SKAction removeFromParent]]]];
+    [self addChild: plus];
+    
+    [sockA moveAwayByX:-self.size.width y:0 with: sockB duration:1.5];
+    
+    // TODO music
 }
 
 - (void)sockEnteredWater:(SockSprite*)sock
@@ -220,12 +274,13 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
     SockMonster *monster = [SockMonster plainMonster: water_height];
     monster.position = CGPointMake(sock.position.x, 0);
     [self addChild: monster];
-    [monster animateSockEating:sock duration:1];
-    [gameDelegate sockLost];
+    [monster animateSockEating:sock duration:1 completion: ^{[gameDelegate sockLost];}];
 }
 
 - (void)didBeginContact:(SKPhysicsContact *)contact
 {
+    if (game_over) return;
+    
     if (contact.bodyA.categoryBitMask & SockMask &&
         contact.bodyB.categoryBitMask & SockMask)
     {
@@ -307,6 +362,7 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
     last_frame_time = currentTime;
 
     if (system_paused) return;
+    if (game_over) return;
     
     if (button_paused)
     {
@@ -397,6 +453,7 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
 - (void)pauseUnpause: (id)sender
 {
     if (system_paused) return;
+    if (game_over) return;
     
     BOOL to_pause = !button_paused;
     

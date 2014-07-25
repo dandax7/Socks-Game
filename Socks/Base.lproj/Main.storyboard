@@ -32,7 +32,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="25"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
                                         <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <size key="shadowOffset" width="-2" height="2"/>
                                     </label>
@@ -45,6 +45,18 @@
                                         <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <size key="shadowOffset" width="2" height="2"/>
                                     </label>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NTL-Ev-JMJ">
+                                        <rect key="frame" x="0.0" y="204" width="320" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="40"/>
+                                        <state key="normal" title="GAME OVER">
+                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="gameOverPressed:" destination="LVB-YS-i5n" eventType="touchUpInside" id="ROY-g9-4Nr"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -95,6 +107,7 @@
                         <outlet property="cycle_rinse" destination="TX4-Ah-iWE" id="hqi-KY-kJe"/>
                         <outlet property="cycle_spin" destination="JcZ-9x-dJQ" id="IUG-Kt-BIF"/>
                         <outlet property="cycle_wash" destination="gnK-uL-r1m" id="0Xi-6E-Ej6"/>
+                        <outlet property="gameOverBtn" destination="NTL-Ev-JMJ" id="SSN-4U-8SU"/>
                         <outlet property="lost_lbl" destination="Zop-nx-1lT" id="aHA-IJ-y9Z"/>
                         <outlet property="pauseBtn" destination="y4e-SY-eMD" id="KMj-EW-n87"/>
                         <outlet property="score_lbl" destination="YYg-ei-Yzx" id="gH3-WX-crP"/>

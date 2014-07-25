@@ -16,6 +16,7 @@ static NSMutableArray *g_sockTextures;
 @synthesize pause_saved_position;
 @synthesize pause_speed;
 @synthesize fall_speed;
+@synthesize out_of_play;
 
 +(void)loadTextures:(float_callback) progress_cb
 {
@@ -79,6 +80,7 @@ static NSMutableArray *g_sockTextures;
                               spriteNodeWithTexture: g_sockTextures[num]
                               size: CGSizeMake(40,60)];
     new_sprite.sock_number = num;
+    new_sprite.out_of_play = NO;
     return new_sprite;
 }
 
@@ -95,12 +97,36 @@ static NSMutableArray *g_sockTextures;
     SKAction *spin = [SKAction rotateByAngle: degree duration:1];
     SKAction *move_spin = [SKAction repeatActionForever: [SKAction group:@[move, spin]]];
     
-    [self runAction: move_spin withKey:@"flow"];
+    [self runAction: move_spin];
 }
 
 - (void)stopFlow
 {
-    [self removeActionForKey:@"flow"];
+    [self removeAllActions];
+}
+
+- (void)moveAwayByX:(CGFloat)x
+                  y:(CGFloat)y
+               with:(SockSprite*)other
+           duration:(NSTimeInterval)duration
+{
+    // out of play, no physicsContact, no other annimations
+    [self removeAllActions];
+    [other removeAllActions];
+    self.physicsBody.categoryBitMask = 0;
+    self.physicsBody.contactTestBitMask = 0;
+    other.physicsBody.categoryBitMask = 0;
+    other.physicsBody.contactTestBitMask = 0;
+
+    other.position = CGPointMake(self.position.x - 8,
+                                 self.position.y + 12);
+    
+    SKAction *move_away = [SKAction moveByX: x y:y duration:duration * .66];
+    SKAction *straight = [SKAction rotateToAngle:0 duration:duration * .33];
+    SKAction *exit = [SKAction sequence: @[straight, move_away, [SKAction removeFromParent]]];
+
+    [self runAction: exit];
+    [other runAction: exit];
 }
 
 - (CGPoint)futurePoint:(NSTimeInterval)future

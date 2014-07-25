@@ -14,7 +14,9 @@
 + (SockMonster*) plainMonster:(CGFloat)height;
 + (void) preload;
 
-- (void) animateSockEating: (SockSprite*)sock duration:(NSTimeInterval)duration;
+- (void) animateSockEating: (SockSprite*)sock
+                  duration: (NSTimeInterval)duration
+                completion: (void (^)(void))comp_block;
 
 
 @end

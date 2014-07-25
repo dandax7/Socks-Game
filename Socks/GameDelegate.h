@@ -11,5 +11,5 @@
 @protocol GameDelegate <NSObject>
 
 - (void) sockLost;
-- (void) socksMatched;
+- (int) socksMatched;
 @end
