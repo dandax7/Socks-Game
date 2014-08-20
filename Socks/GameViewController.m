@@ -7,6 +7,7 @@
 //
 
 #import "GameViewController.h"
+#import "ScoreManager.h"
 #import "SocksScene.h"
 #import "SockSprite.h"
 
@@ -25,7 +26,7 @@
     
     self.gameOverBtn.hidden = YES;
     
-    lost_socks = 10;
+    lost_socks = 20;
     lost_lbl.text = [NSString stringWithFormat:@"%d", lost_socks];
 
     score = 0;
@@ -51,18 +52,25 @@
 
 - (void) gameOver
 {
-    self.socksScene.speed = 1;
-    self.gameOverBtn.hidden = NO;
+    self.gameOverBtn.hidden = NO;    
+    self.cycle_rinse.highlighted = NO;
+    self.cycle_wash.highlighted = NO;
+    self.cycle_spin.highlighted = NO;
+
     [self.socksScene gameOver];
 }
 
 -(IBAction) gameOverPressed:(id)sender
 {
-
+    [[ScoreManager sharedScoreManager] reportScore: score];
+    [self removeFromParentViewController];
 }
 
 - (void)startRinse
 {
+    if (socksScene.isGameOver) return;
+    
+    score_for_sock = 10;
     self.socksScene.speed = 1;
     self.cycle_rinse.highlighted = YES;
     self.cycle_wash.highlighted = NO;
@@ -72,6 +80,9 @@
 
 - (void)startWash
 {
+    if (socksScene.isGameOver) return;
+
+    score_for_sock = 20;
     self.socksScene.speed = 1.5;
     self.cycle_rinse.highlighted = NO;
     self.cycle_wash.highlighted = YES;
@@ -81,6 +92,9 @@
 
 - (void)startSpin
 {
+    if (socksScene.isGameOver) return;
+
+    score_for_sock = 10;
     self.socksScene.speed = 2;
     self.cycle_rinse.highlighted = NO;
     self.cycle_wash.highlighted = NO;
@@ -112,6 +126,13 @@
     score += score_for_sock;
     score_lbl.text = [NSString stringWithFormat:@"%d", score];
     return score_for_sock;
+}
+
+- (int) unmatchedSock
+{
+    score += score_for_sock/2;
+    score_lbl.text = [NSString stringWithFormat:@"%d", score];
+    return score_for_sock/2;
 }
 
 - (BOOL)shouldAutorotate

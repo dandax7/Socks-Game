@@ -34,6 +34,9 @@
 -(IBAction) pauseUnpause:(id)button;
 - (void) sockLost;
 - (int) socksMatched;
+- (int) unmatchedSock;
+- (void) gameOver;
+
 
 @end
 

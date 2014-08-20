@@ -60,34 +60,41 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+-(BOOL)isGameOver
+{
+    return game_over;
+}
+
 -(void)gameOver
 {
+    if (game_over)
+    {
+        NSLog(@"Game over twice???");
+        return;
+    }
+
+    self.speed = .5;
     game_over = YES;
-    
+
+    // for some reason we have to do this 2nd part a tad later
+    // otherwise speed of the socks flying off is wrong
+    [self performSelectorOnMainThread:@selector(gameOverBg) withObject:nil waitUntilDone:NO ];
+}
+
+-(void)gameOverBg
+{
+    int child_count = 0;
+
     for (SKNode *child in [self children])
     {
         if ([child isKindOfClass: [SockSprite class]])
         {
-            [child runAction: [SKAction rotateToAngle:0 duration:1]];
-        }
-    }
-    
-    /*
-    int child_count = 0;
-    for (SKNode *child in [self children])
-    {
-        if ([child isKindOfClass: [SockSprite class]] ||
-            [child isKindOfClass: [SockMonster class]])
-        {
-            [child removeAllActions];
-            SKAction *wait = [SKAction waitForDuration: child_count * .5];
-            SKAction *disappear = [SKAction fadeAlphaTo: 0 duration: 1];
-            SKAction *shrink = [SKAction scaleBy:.3 duration:1];
-            SKAction *disashrink = [SKAction group: @[disappear, shrink]];
-            [child runAction: [SKAction sequence:@[wait, disashrink]]];
+            SockSprite *sock = (SockSprite*)child;
+            int score = [gameDelegate unmatchedSock];
+            [sock moveAwayByX: -self.size.width y:0 with:nil score: score duration:2];
             child_count++;
         }
-    }*/
+    }
 }
 
 -(void)flowBackground: (CGSize) size
@@ -250,19 +257,7 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
     sockB.out_of_play = YES;
     
     int score = [gameDelegate socksMatched];
-    
-    SKLabelNode *plus = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    plus.fontSize = 20;
-    plus.fontColor = [UIColor greenColor];
-    plus.text = [NSString stringWithFormat: @"+%d", score];
-    plus.position = sockA.position;
-    SKAction *blow_up = [SKAction scaleBy: 2 duration:3];
-    SKAction *disappear = [SKAction fadeAlphaTo:0 duration:3];
-    SKAction *explode = [SKAction group: @[blow_up, disappear]];
-    [plus runAction: [SKAction sequence:@[explode, [SKAction removeFromParent]]]];
-    [self addChild: plus];
-    
-    [sockA moveAwayByX:-self.size.width y:0 with: sockB duration:1.5];
+    [sockA moveAwayByX:-self.size.width y:0 with: sockB score: score duration:1.5];
     
     // TODO music
 }

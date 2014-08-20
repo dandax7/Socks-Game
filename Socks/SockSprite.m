@@ -108,19 +108,38 @@ static NSMutableArray *g_sockTextures;
 - (void)moveAwayByX:(CGFloat)x
                   y:(CGFloat)y
                with:(SockSprite*)other
+              score:(int)score
            duration:(NSTimeInterval)duration
 {
     // out of play, no physicsContact, no other annimations
     [self removeAllActions];
     [other removeAllActions];
+    
+    self.out_of_play = YES;
+    other.out_of_play = YES;
+    
     self.physicsBody.categoryBitMask = 0;
     self.physicsBody.contactTestBitMask = 0;
     other.physicsBody.categoryBitMask = 0;
     other.physicsBody.contactTestBitMask = 0;
 
+    // put the other sock close to us
     other.position = CGPointMake(self.position.x - 8,
                                  self.position.y + 12);
-    
+
+    // score animation
+    SKLabelNode *plus = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    plus.fontSize = 20;
+    plus.fontColor = [UIColor greenColor];
+    plus.text = [NSString stringWithFormat: @"+%d", score];
+    plus.position = self.position;
+    SKAction *blow_up = [SKAction scaleBy: 2 duration:3];
+    SKAction *disappear = [SKAction fadeAlphaTo:0 duration:3];
+    SKAction *explode = [SKAction group: @[blow_up, disappear]];
+    [plus runAction: [SKAction sequence:@[explode, [SKAction removeFromParent]]]];
+    [self.parent addChild: plus];
+
+    // sock animation
     SKAction *move_away = [SKAction moveByX: x y:y duration:duration * .66];
     SKAction *straight = [SKAction rotateToAngle:0 duration:duration * .33];
     SKAction *exit = [SKAction sequence: @[straight, move_away, [SKAction removeFromParent]]];

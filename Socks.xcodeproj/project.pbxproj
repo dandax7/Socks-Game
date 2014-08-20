@@ -23,6 +23,7 @@
 		9823408818DFC9DB0090C3FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9823406318DFC9DB0090C3FE /* UIKit.framework */; };
 		9823409018DFC9DB0090C3FE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9823408E18DFC9DB0090C3FE /* InfoPlist.strings */; };
 		9823409218DFC9DB0090C3FE /* SocksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823409118DFC9DB0090C3FE /* SocksTests.m */; };
+		984CC66A198FCB1C007877A5 /* ScoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 984CC669198FCB1C007877A5 /* ScoreManager.m */; };
 		984E2970195BDB3B00EB0F77 /* plain-sock.png in Resources */ = {isa = PBXBuildFile; fileRef = 984E296F195BDB3B00EB0F77 /* plain-sock.png */; };
 		984E2972195BDD9700EB0F77 /* red-plain-sock.png in Resources */ = {isa = PBXBuildFile; fileRef = 984E2971195BDD9700EB0F77 /* red-plain-sock.png */; };
 		9852A43F18E8CEA600CC63E2 /* SockSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 9852A43E18E8CEA600CC63E2 /* SockSprite.m */; };
@@ -94,6 +95,8 @@
 		9823408D18DFC9DB0090C3FE /* SocksTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SocksTests-Info.plist"; sourceTree = "<group>"; };
 		9823408F18DFC9DB0090C3FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9823409118DFC9DB0090C3FE /* SocksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocksTests.m; sourceTree = "<group>"; };
+		984CC668198FCB1C007877A5 /* ScoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreManager.h; sourceTree = "<group>"; };
+		984CC669198FCB1C007877A5 /* ScoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreManager.m; sourceTree = "<group>"; };
 		984E296F195BDB3B00EB0F77 /* plain-sock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plain-sock.png"; path = "../../Images/socks/plain-sock.png"; sourceTree = "<group>"; };
 		984E2971195BDD9700EB0F77 /* red-plain-sock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "red-plain-sock.png"; path = "../../Images/socks/red-plain-sock.png"; sourceTree = "<group>"; };
 		9852A43D18E8CEA600CC63E2 /* SockSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SockSprite.h; sourceTree = "<group>"; };
@@ -205,6 +208,8 @@
 				98B00F9019046C340001CD0D /* Random.h */,
 				98B00F8E19046BCE0001CD0D /* Random.m */,
 				9823407018DFC9DB0090C3FE /* AppDelegate.h */,
+				984CC668198FCB1C007877A5 /* ScoreManager.h */,
+				984CC669198FCB1C007877A5 /* ScoreManager.m */,
 				9823407118DFC9DB0090C3FE /* AppDelegate.m */,
 				9852A4501901ADC400CC63E2 /* MainViewController.h */,
 				9852A4511901ADC400CC63E2 /* MainViewController.m */,
@@ -440,6 +445,7 @@
 				9852A43F18E8CEA600CC63E2 /* SockSprite.m in Sources */,
 				9852A4521901ADC400CC63E2 /* MainViewController.m in Sources */,
 				9823406E18DFC9DB0090C3FE /* main.m in Sources */,
+				984CC66A198FCB1C007877A5 /* ScoreManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -38,5 +38,6 @@
 -(void)physicsOnSock:(SockSprite*)sock;
 -(void)pauseUnpause:(id)button;
 -(void)gameOver;
+-(BOOL)isGameOver;
 
 @end

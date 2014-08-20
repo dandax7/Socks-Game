@@ -12,4 +12,5 @@
 
 - (void) sockLost;
 - (int) socksMatched;
+- (int) unmatchedSock;
 @end

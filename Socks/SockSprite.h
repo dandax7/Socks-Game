@@ -28,6 +28,7 @@ typedef void(^float_callback)(float);
 - (void)moveAwayByX:(CGFloat)x
                   y:(CGFloat)y
                with:(SockSprite*)other
+              score:(int)score
            duration:(NSTimeInterval)duration;
 - (CGPoint)futurePoint:(NSTimeInterval)future;
 @end
