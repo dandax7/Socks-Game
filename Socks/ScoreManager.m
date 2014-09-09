@@ -9,7 +9,7 @@
 #import "ScoreManager.h"
 
 @implementation ScoreManager
-@synthesize currentPlayer;
+@synthesize lastScore;
 @synthesize highestScore;
 
 + (id) sharedScoreManager
@@ -26,48 +26,85 @@
 {
     if (self = [super init])
     {
-        currentPlayer = [[NSUserDefaults standardUserDefaults] stringForKey: @"currentPlayer"];
-        if (currentPlayer == nil)
-        {
-            highestScore = 0;
-            currentPlayer = @"me";
-        }
-        else
-        {
-            [self load];
-        }
+        [self load];
     }
     return self;
 }
 
+/*
+- (NSString*)saveDirectory
+{
+    NSString *dir = [NSString stringWithFormat: @"%@/scores",  NSHomeDirectory()];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    BOOL isdir;
+    BOOL exists =[fm fileExistsAtPath: dir isDirectory: &isdir];
+    if (exists & isdir)
+        return dir;
+    
+    if (exists && !isdir)
+    {
+        NSLog(@"%@ is not a directory, removing", dir);
+        [fm removeItemAtPath: dir error: nil];
+    }
+    
+    NSError *error = nil;
+    BOOL ret = [fm createDirectoryAtPath:dir
+             withIntermediateDirectories:YES
+                              attributes:NULL
+                                   error:&error];
+    NSLog(@"Creating %@ -> %d (%@)", dir, ret, error);
+    if (!ret)
+        abort();
+    
+    return dir;
+}*/
+
+- (NSString*)saveFileName
+{
+    return [NSString stringWithFormat: @"%@/%@", NSHomeDirectory(), @"score"];
+}
+
 - (void)save
 {
-    NSString *scoreKey = [NSString stringWithFormat: @"highestScore-%@", currentPlayer];
-    [[NSUserDefaults standardUserDefaults] setInteger: highestScore forKey:scoreKey];
-    
-    if (![NSUserDefaults standardUserDefaults].synchronize)
-    {
-        NSLog(@"sync failed");
-    }
+    NSString *saveFname = [self saveFileName];
+    NSDictionary *tosave = [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSNumber numberWithInt: highestScore], @"highestScore",
+                            [NSNumber numberWithInt:lastScore], @"lastScore", nil];
+
+    NSLog(@"Saved %@ to %@", tosave, saveFname);
+    [tosave writeToFile: saveFname atomically:YES];
 }
 
 - (void)load
 {
-    NSString *scoreKey = [NSString stringWithFormat: @"highestScore-%@", currentPlayer];
-    highestScore = [[NSUserDefaults standardUserDefaults] integerForKey: scoreKey];
+    NSString *saveFname = [self saveFileName];
+    NSDictionary *toload = [NSDictionary dictionaryWithContentsOfFile: saveFname];
+    if (toload == nil)
+    {
+        NSLog(@"Cant load plist from %@", saveFname);
+        highestScore = 0;
+        lastScore = 0;
+        return;
+    }
+    NSLog(@"Loaded plist %@ from %@", toload, saveFname);
+    highestScore = [(NSNumber*)[toload valueForKey: @"highestScore"] intValue];
+    lastScore =    [(NSNumber*)[toload valueForKey: @"lastScore"] intValue];
 }
 
 - (void)reportScore:(int)score
 {
     NSLog(@"reporting score: %d", score);
+    lastScore = score;
     if (score > highestScore)
     {
         NSLog(@"Setting to high, (old high=%d)", highestScore);
         highestScore = score;
-        [self save];
     }
+    [self save];
 }
 
+/*
 - (void)loadPlayer:(NSString *)newPlayer
 {
     currentPlayer = newPlayer;
@@ -77,21 +114,9 @@
 
 - (NSArray*)registeredPLayers
 {
-    NSMutableArray *players = [NSMutableArray array];
-
-    NSArray *all_keys = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
-    for (NSString* key in all_keys)
-    {
-        if (key.length < 14)
-            continue;
-        
-        if ([[key substringToIndex:13] isEqual: @"highestScore-"])
-        {
-            NSString *player = [key substringFromIndex:13];
-            [players addObject: player];
-        }
-    }
-    return players;
-}
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath: [self saveDirectory]
+                                                                         error: nil];
+    return files;
+}*/
 
 @end

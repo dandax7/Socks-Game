@@ -57,12 +57,13 @@
     self.cycle_wash.highlighted = NO;
     self.cycle_spin.highlighted = NO;
 
+    [[ScoreManager sharedScoreManager] reportScore: score];
+
     [self.socksScene gameOver];
 }
 
 -(IBAction) gameOverPressed:(id)sender
 {
-    [[ScoreManager sharedScoreManager] reportScore: score];
     [self removeFromParentViewController];
 }
 

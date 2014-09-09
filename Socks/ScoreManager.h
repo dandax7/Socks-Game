@@ -10,17 +10,19 @@
 
 @interface ScoreManager : NSObject
 {
+    int lastScore;
     int highestScore;
-    NSString *currentPlayer;
+    //NSString *currentPlayer;
 }
 + (id) sharedScoreManager;
 
 @property (nonatomic, readonly) int highestScore;
 @property (nonatomic, readonly) int lastScore;
-@property (nonatomic, readonly) NSString *currentPlayer;
-@property (nonatomic, readonly) NSArray *registeredPlayers;
 
-- (void) loadPlayer: (NSString*)newPlayer;
+//@property (nonatomic, readonly) NSString *currentPlayer;
+//@property (nonatomic, readonly) NSArray *registeredPlayers;
+//- (void) loadPlayer: (NSString*)newPlayer;
+
 - (void) reportScore:(int)score;
 
 @end

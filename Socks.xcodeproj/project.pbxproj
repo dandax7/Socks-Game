@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9813EC5319A4D7AB000AC2D0 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9813EC5219A4D7AB000AC2D0 /* iAd.framework */; };
 		9823406018DFC9DB0090C3FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9823405F18DFC9DB0090C3FE /* Foundation.framework */; };
 		9823406218DFC9DB0090C3FE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9823406118DFC9DB0090C3FE /* CoreGraphics.framework */; };
 		9823406418DFC9DB0090C3FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9823406318DFC9DB0090C3FE /* UIKit.framework */; };
@@ -73,6 +74,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9813EC5219A4D7AB000AC2D0 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		9823405C18DFC9DB0090C3FE /* Socks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Socks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9823405F18DFC9DB0090C3FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9823406118DFC9DB0090C3FE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -145,6 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9813EC5319A4D7AB000AC2D0 /* iAd.framework in Frameworks */,
 				9823406218DFC9DB0090C3FE /* CoreGraphics.framework in Frameworks */,
 				9823406418DFC9DB0090C3FE /* UIKit.framework in Frameworks */,
 				9823406618DFC9DB0090C3FE /* SpriteKit.framework in Frameworks */,
@@ -187,6 +190,7 @@
 		9823405E18DFC9DB0090C3FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9813EC5219A4D7AB000AC2D0 /* iAd.framework */,
 				9823405F18DFC9DB0090C3FE /* Foundation.framework */,
 				9823406118DFC9DB0090C3FE /* CoreGraphics.framework */,
 				9823406318DFC9DB0090C3FE /* UIKit.framework */,

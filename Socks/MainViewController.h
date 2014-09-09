@@ -9,7 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface MainViewController : UIViewController
+{
+}
+
 @property (nonatomic, retain) IBOutlet UIProgressView *progressBar;
+@property (nonatomic, retain) IBOutlet UILabel *scoreLast;
+@property (nonatomic, retain) IBOutlet UILabel *scoreHighest;
 @property (nonatomic, retain) IBOutlet UIButton *startBtn;
 @end
 

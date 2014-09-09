@@ -8,6 +8,10 @@
 
 #import "MainViewController.h"
 #import "SockSprite.h"
+#import "ScoreManager.h"
+
+#define SWITCH_MESSAGE_SHOW_AFTER 3.0
+#define SWITCH_MESSAGE_SHOW_DURATION 1.0
 
 @interface MainViewController ()
 @end
@@ -16,12 +20,14 @@
 @implementation MainViewController
 @synthesize progressBar;
 @synthesize startBtn;
+@synthesize scoreHighest;
+@synthesize scoreLast;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+    //whatever
     }
     return self;
 }
@@ -29,7 +35,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    startBtn.enabled = NO;
+    
+    ScoreManager *sm = [ScoreManager sharedScoreManager];
+    
+    scoreLast.text = [NSString stringWithFormat:@"%d", sm.lastScore];
+    scoreHighest.text = [NSString stringWithFormat:@"%d", sm.highestScore];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -45,11 +56,13 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [SockSprite loadTextures: progress];
         
-        // Present the scene. on the main queue
+        // Change buttons on the main queue
         dispatch_async(dispatch_get_main_queue(), ^{
             startBtn.enabled = YES;
         });
+        
     });
+    
 }
 
 - (void)didReceiveMemoryWarning
