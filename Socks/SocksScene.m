@@ -155,11 +155,10 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
     return [super resignFirstResponder];
 }
 
-
 - (void) physicsOnSock:(SockSprite *)sock
 {
-    sock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize: CGSizeMake(sock.size.width * .2,
-                   sock.size.height * .2)];
+    sock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize: CGSizeMake(sock.size.width,
+                   sock.size.height)];
     
     sock.physicsBody.mass = 0;
     sock.physicsBody.categoryBitMask = SockMask;
@@ -178,16 +177,16 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
 
-        // we move one sock at a time
-        SKNode *touch_node = [self nodeAtPoint: location];
-        if (touch_node == nil)
-            continue;
-        if (![touch_node isKindOfClass:[SockSprite class]])
-            continue;
+        // we move all socks at that location
+        NSArray *touch_nodes = [self nodesAtPoint: location];
+        for (SKNode *touch_node in touch_nodes) {
+            if (![touch_node isKindOfClass:[SockSprite class]])
+                continue;
 
-        SockSprite *touch_sock = (SockSprite*) touch_node;
-        [touch_sock stopFlow];
-        touch_sock.moving_touch = touch;
+            SockSprite *touch_sock = (SockSprite*) touch_node;
+            [touch_sock stopFlow];
+            touch_sock.moving_touch = touch;
+        }
     }
 }
 
@@ -200,7 +199,8 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
 
         // we need the socks at the old location, since we haven't moved them yet
         CGPoint old_location = [touch previousLocationInNode:self];
-        // get them all since, the one we're moving might be behind another one
+
+        // get them all, since we're moving all points of that location
         NSArray *touch_nodes = [self nodesAtPoint: old_location];
         for (id touch_node in touch_nodes)
         {

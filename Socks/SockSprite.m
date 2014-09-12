@@ -86,7 +86,7 @@ static NSMutableArray *g_sockTextures;
 
 + (int) totalSocks
 {
-    return g_sockTextures.count;
+    return (int)g_sockTextures.count;
 }
 
 - (void)startFlowWith: (CGFloat)new_speed turn:(CGFloat)degree
