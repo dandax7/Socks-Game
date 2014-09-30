@@ -12,7 +12,7 @@
 {
     int lastScore;
     int highestScore;
-    //NSString *currentPlayer;
+    //NSString *currentPlayer; TODO: multiplayer
 }
 + (id) sharedScoreManager;
 

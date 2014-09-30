@@ -51,6 +51,7 @@
 		98A4A15F18E3D4F100EFBCF4 /* sock4.png in Resources */ = {isa = PBXBuildFile; fileRef = 98A4A15A18E3D4F100EFBCF4 /* sock4.png */; };
 		98A4A16018E3D4F100EFBCF4 /* sock5.png in Resources */ = {isa = PBXBuildFile; fileRef = 98A4A15B18E3D4F100EFBCF4 /* sock5.png */; };
 		98B00F8F19046BCE0001CD0D /* Random.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B00F8E19046BCE0001CD0D /* Random.m */; };
+		98E8174119D222900013A21F /* gray25-gray75-nne.png in Resources */ = {isa = PBXBuildFile; fileRef = 98E8174019D222900013A21F /* gray25-gray75-nne.png */; };
 		98F67536196AEE2D0099058F /* washer-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 98F67532196AEE2D0099058F /* washer-green.png */; };
 		98F67537196AEE2D0099058F /* washer-navy.png in Resources */ = {isa = PBXBuildFile; fileRef = 98F67533196AEE2D0099058F /* washer-navy.png */; };
 		98F67538196AEE2D0099058F /* drops-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 98F67534196AEE2D0099058F /* drops-green.png */; };
@@ -129,6 +130,7 @@
 		98A4A15B18E3D4F100EFBCF4 /* sock5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sock5.png; path = ../../Images/socks/sock5.png; sourceTree = "<group>"; };
 		98B00F8E19046BCE0001CD0D /* Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Random.m; sourceTree = "<group>"; };
 		98B00F9019046C340001CD0D /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
+		98E8174019D222900013A21F /* gray25-gray75-nne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gray25-gray75-nne.png"; path = "../../Images/backgrounds/gray25-gray75-nne.png"; sourceTree = "<group>"; };
 		98F67532196AEE2D0099058F /* washer-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "washer-green.png"; path = "../../Images/Symbols/washer-green.png"; sourceTree = "<group>"; };
 		98F67533196AEE2D0099058F /* washer-navy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "washer-navy.png"; path = "../../Images/Symbols/washer-navy.png"; sourceTree = "<group>"; };
 		98F67534196AEE2D0099058F /* drops-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "drops-green.png"; path = "../../Images/Symbols/drops-green.png"; sourceTree = "<group>"; };
@@ -208,7 +210,6 @@
 				98607B81191BDD2100B93120 /* buttons */,
 				98A4A15618E3D4C000EFBCF4 /* socks-images */,
 				9823407318DFC9DB0090C3FE /* Main.storyboard */,
-				98F675411976D0A20099058F /* sox-falling.png */,
 				98B00F9019046C340001CD0D /* Random.h */,
 				98B00F8E19046BCE0001CD0D /* Random.m */,
 				9823407018DFC9DB0090C3FE /* AppDelegate.h */,
@@ -283,6 +284,7 @@
 		98607B8219266E6A00B93120 /* backgrounds */ = {
 			isa = PBXGroup;
 			children = (
+				98E8174019D222900013A21F /* gray25-gray75-nne.png */,
 				98607B87192BD00400B93120 /* washer-drum-square.png */,
 			);
 			name = backgrounds;
@@ -291,6 +293,7 @@
 		98A4A15618E3D4C000EFBCF4 /* socks-images */ = {
 			isa = PBXGroup;
 			children = (
+				98F675411976D0A20099058F /* sox-falling.png */,
 				98607B9019365E4800B93120 /* sock-monster-close.png */,
 				98607B9119365E4800B93120 /* sock-monster-half.png */,
 				98607B9219365E4800B93120 /* sock-monster-open.png */,
@@ -400,6 +403,7 @@
 				98A4A15E18E3D4F100EFBCF4 /* sock3.png in Resources */,
 				98607B71191B127600B93120 /* play-outline.png in Resources */,
 				984E2972195BDD9700EB0F77 /* red-plain-sock.png in Resources */,
+				98E8174119D222900013A21F /* gray25-gray75-nne.png in Resources */,
 				98A4A15C18E3D4F100EFBCF4 /* sock1.png in Resources */,
 				9852A44E190047B900CC63E2 /* pattern2.png in Resources */,
 				98FED9FE19189FCC00219B3F /* play.png in Resources */,

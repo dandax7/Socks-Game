@@ -23,7 +23,7 @@
     
     int pause_steps_to_take;   // steps left to take pausing
     int unpause_steps_to_take; // steps left to take unpausing
-    CGFloat water_height;
+    //CGFloat water_height; TODO: make id dynamic
     
     CFTimeInterval last_frame_time;
     CFTimeInterval running_time; // time we've been running unpaused

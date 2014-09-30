@@ -16,9 +16,12 @@
 @synthesize skView;
 @synthesize lost_lbl;
 @synthesize score_lbl;
-@synthesize cycle_rinse;
-@synthesize cycle_spin;
-@synthesize cycle_wash;
+@synthesize adView;
+
+- (void)viewDidLoad
+{
+    adView.delegate = self;
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -45,17 +48,34 @@
     self.socksScene = [SocksScene sceneWithSize:bounds.size];
     self.socksScene.gameDelegate = self;
     [self.skView presentScene: self.socksScene];
-    
+   
+    /*
     // start at rinse
     [self startRinse];
+     */
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner
+               willLeaveApplication:(BOOL)willLeave
+{
+    // todo: pause
+    return YES;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    // todo: unpause
+}
+
+- (void)bannerView:(ADBannerView *)banner
+didFailToReceiveAdWithError:(NSError *)error
+{
+    NSLog(@"AD error: %@", error);
 }
 
 - (void) gameOver
 {
     self.gameOverBtn.hidden = NO;    
-    self.cycle_rinse.highlighted = NO;
-    self.cycle_wash.highlighted = NO;
-    self.cycle_spin.highlighted = NO;
 
     [[ScoreManager sharedScoreManager] reportScore: score];
 
@@ -66,17 +86,14 @@
 {
     [self removeFromParentViewController];
 }
-
+/*
 - (void)startRinse
 {
     if (socksScene.isGameOver) return;
     
     score_for_sock = 10;
     self.socksScene.speed = 1;
-    self.cycle_rinse.highlighted = YES;
-    self.cycle_wash.highlighted = NO;
-    self.cycle_spin.highlighted = NO;
-    [self performSelector:@selector(startWash) withObject:nil afterDelay:20];
+   // [self performSelector:@selector(startWash) withObject:nil afterDelay:20];
 }
 
 - (void)startWash
@@ -85,9 +102,6 @@
 
     score_for_sock = 20;
     self.socksScene.speed = 1.5;
-    self.cycle_rinse.highlighted = NO;
-    self.cycle_wash.highlighted = YES;
-    self.cycle_spin.highlighted = NO;
     [self performSelector:@selector(startSpin) withObject:nil afterDelay:20];
 }
 
@@ -97,12 +111,9 @@
 
     score_for_sock = 10;
     self.socksScene.speed = 2;
-    self.cycle_rinse.highlighted = NO;
-    self.cycle_wash.highlighted = NO;
-    self.cycle_spin.highlighted = YES;
     [self performSelector:@selector(startRinse) withObject:nil afterDelay:20];
 }
-
+*/
 - (void) sockLost
 {
     if (lost_socks)

@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
+#import <iAd/iAd.h>
 #import "GameDelegate.h"
 
 @class SocksScene;
 
-@interface GameViewController : UIViewController<GameDelegate>
+@interface GameViewController : UIViewController<GameDelegate, ADBannerViewDelegate>
 {
     int lost_socks;
     int score;
@@ -26,9 +27,7 @@
 
 @property (nonatomic,retain) IBOutlet UILabel *lost_lbl;
 @property (nonatomic,retain) IBOutlet UILabel *score_lbl;
-@property (nonatomic,retain) IBOutlet UIImageView *cycle_rinse;
-@property (nonatomic,retain) IBOutlet UIImageView *cycle_wash;
-@property (nonatomic,retain) IBOutlet UIImageView *cycle_spin;
+@property (nonatomic,retain) IBOutlet ADBannerView *adView;
 
 -(IBAction) gameOverPressed:(id)sender;
 -(IBAction) pauseUnpause:(id)button;

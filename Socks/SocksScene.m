@@ -19,6 +19,7 @@ enum ColliosionBitMask
 };
 
 const int PAUSE_STEPS = 10; // higher number causes longer pausing
+const int WATER_HEIGHT = 60; // has to be higher then iAd bar, hard code for now
 
 @implementation SocksScene
 @synthesize gameDelegate;
@@ -37,7 +38,6 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
         unpause_steps_to_take = 0;
         last_frame_time = 0;
         running_time = 0;
-        water_height = size.height * .1;
         self.physicsWorld.gravity = CGVectorMake(0, 0);
         self.physicsWorld.contactDelegate = self;
         self.scaleMode = SKSceneScaleModeAspectFill;
@@ -45,7 +45,7 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
         // must be our bottom sprite, so gets added first
         [self flowBackground: size];
     
-        CGSize water_size = CGSizeMake(size.width, water_height);
+        CGSize water_size = CGSizeMake(size.width, WATER_HEIGHT);
         [self createWater: water_size];
         
         [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(systemPause) name: @"AppBg" object:nil];
@@ -106,9 +106,10 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
     CGFloat sq_size = self.size.width;
     bg3.size = bg2.size = bg1.size = CGSizeMake(sq_size, sq_size);
     
+    //  overlap by a point to get rid of the moving seam
     CGPoint p1 = CGPointMake(self.size.width * .5, self.size.height - sq_size * (0 + .5));
-    CGPoint p2 = CGPointMake(self.size.width * .5, self.size.height - sq_size * (1 + .5));
-    CGPoint p3 = CGPointMake(self.size.width * .5, self.size.height - sq_size * (2 + .5));
+    CGPoint p2 = CGPointMake(self.size.width * .5, self.size.height - sq_size * (1 + .5) + 1);
+    CGPoint p3 = CGPointMake(self.size.width * .5, self.size.height - sq_size * (2 + .5) + 2);
     bg1.position = p1;
     bg2.position = p2;
     bg3.position = p3;
@@ -143,9 +144,7 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
 -(void)flowSock:(SockSprite*)sock
 {
     CGFloat degree = arc4random_uniform_float(-M_PI_2, +M_PI_2, .01);
-    CGSize size = self.size;
-    CGPoint pos = sock.position;
-    CGFloat speed = 25.0 + 25.0 * (pos.x / (CGFloat)size.width); // pixels per sec
+    CGFloat speed = 40; // TODO
     
     [sock startFlowWith:speed turn:degree];
 }
@@ -157,8 +156,8 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
 
 - (void) physicsOnSock:(SockSprite *)sock
 {
-    sock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize: CGSizeMake(sock.size.width,
-                   sock.size.height)];
+    sock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:
+                        CGSizeMake(sock.size.width * .9, sock.size.height * .9)];
     
     sock.physicsBody.mass = 0;
     sock.physicsBody.categoryBitMask = SockMask;
@@ -174,16 +173,21 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
     if (game_over) return;
 
     /* Called when a touch begins */
-    for (UITouch *touch in touches) {
+    for (UITouch *touch in touches)
+    {
         CGPoint location = [touch locationInNode:self];
 
         // we move all socks at that location
         NSArray *touch_nodes = [self nodesAtPoint: location];
-        for (SKNode *touch_node in touch_nodes) {
+        for (SKNode *touch_node in touch_nodes)
+        {
             if (![touch_node isKindOfClass:[SockSprite class]])
                 continue;
 
             SockSprite *touch_sock = (SockSprite*) touch_node;
+            if (touch_sock.out_of_play)
+                continue;
+
             [touch_sock stopFlow];
             touch_sock.moving_touch = touch;
         }
@@ -196,19 +200,42 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
 
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
-
-        // we need the socks at the old location, since we haven't moved them yet
-        CGPoint old_location = [touch previousLocationInNode:self];
-
-        // get them all, since we're moving all points of that location
-        NSArray *touch_nodes = [self nodesAtPoint: old_location];
-        for (id touch_node in touch_nodes)
-        {
-            if (![touch_node isKindOfClass:[SockSprite class]])
+        
+        BOOL moved_any = NO;
+        // lets find socks moving by this touch
+        for (SKNode *node in [self children]) {
+            if (![node isKindOfClass: [SockSprite class]])
                 continue;
-            SockSprite *touch_sock = (SockSprite*) touch_node;
+            
+            SockSprite *touch_sock = (SockSprite*) node;
             if (touch_sock.moving_touch == touch) {
+                if (touch_sock.out_of_play)
+                    continue;
+
+                // move to finger
+                moved_any = YES;
                 touch_sock.position = location;
+            }
+        }
+        
+        // possibly, we've tried to move a sock but missed it,
+        // and now moving through it, we should pick it up
+        if (!moved_any) // maybe check time??
+        {
+            NSArray *pickups = [self nodesAtPoint:location];
+            for (SKNode *pickup in pickups)
+            {
+                if (![pickup isKindOfClass: [SockSprite class]])
+                    continue;
+                
+                SockSprite *pickup_sock = (SockSprite*) pickup;
+                if (pickup_sock.moving_touch || pickup_sock.out_of_play)
+                    continue; // already being moved or out of play, never mind
+                
+                // not moved yet, pick it up!
+                [pickup_sock stopFlow];
+                pickup_sock.moving_touch = touch;
+                pickup_sock.position = location;
             }
         }
     }
@@ -224,16 +251,20 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
     for (UITouch *touch in touches) {
         CGPoint location = [touch locationInNode:self];
         
+        /*
         // we need the socks at the old location, since we haven't moved them yet
         CGPoint old_location = [touch previousLocationInNode:self];
         // get them all since, the one we're moving might be behind another one
         NSArray *touch_nodes = [self nodesAtPoint: old_location];
         for (id touch_node in touch_nodes)
         {
-            if (![touch_node isKindOfClass:[SockSprite class]])
+         */
+        for (SKNode *node in [self children])
+        {
+            if (![node isKindOfClass:[SockSprite class]])
                 continue;
-            
-            SockSprite *touch_sock = (SockSprite*) touch_node;
+        
+            SockSprite *touch_sock = (SockSprite*) node;
             if (touch_sock.moving_touch == touch) {
                 touch_sock.moving_touch = nil;
                 if (touch_sock.out_of_play)
@@ -266,7 +297,7 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
 {
     NSLog(@"got contact between sock and water");
     
-    SockMonster *monster = [SockMonster plainMonster: water_height];
+    SockMonster *monster = [SockMonster plainMonster: 40];
     monster.position = CGPointMake(sock.position.x, 0);
     [self addChild: monster];
     [monster animateSockEating:sock duration:1 completion: ^{[gameDelegate sockLost];}];
@@ -308,7 +339,7 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
             [existing_socks addObject: child];
     }
     
-    int exist_count = existing_socks.count;
+    NSUInteger exist_count = existing_socks.count;
     
     //NSLog(@"pickAsock called w/ count %d", exist_count);
     
@@ -339,8 +370,8 @@ const int PAUSE_STEPS = 10; // higher number causes longer pausing
     {
         // return one of the socks we have
         
-        int rand_sock = arc4random_uniform(existing_socks.count);
-        NSLog(@"Creating same as existing sock number %d (of %d)", rand_sock, existing_socks.count);
+        int rand_sock = (int)arc4random_uniform((uint32_t)existing_socks.count);
+        NSLog(@"Creating same as existing sock number %d (of %lu)", rand_sock, existing_socks.count);
 
         SockSprite *rand_sock_obj = existing_socks[rand_sock];
         return rand_sock_obj.sock_number;

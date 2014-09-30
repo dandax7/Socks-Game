@@ -41,10 +41,7 @@
     
     scoreLast.text = [NSString stringWithFormat:@"%d", sm.lastScore];
     scoreHighest.text = [NSString stringWithFormat:@"%d", sm.highestScore];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
+    
     // this block will bg load the texture
     
     float_callback progress = ^(float p){
@@ -62,8 +59,14 @@
         });
         
     });
+}
+
+/*
+- (void)viewDidAppear:(BOOL)animated
+{
     
 }
+ */
 
 - (void)didReceiveMemoryWarning
 {
