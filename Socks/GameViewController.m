@@ -9,7 +9,6 @@
 #import "GameViewController.h"
 #import "ScoreManager.h"
 #import "SocksScene.h"
-#import "SockSprite.h"
 
 @implementation GameViewController
 @synthesize socksScene;

@@ -22,6 +22,7 @@ typedef void(^float_callback)(float);
 + (int) totalSocks;
 + (void)loadTextures: (float_callback) progress_cb;
 + (SockSprite*) sockNumber: (int) num;
++ (void)revealManyShapes: (BOOL) yn;
 
 - (void)startFlowWith: (CGFloat)speed turn:(CGFloat)degree;
 - (void)stopFlow;

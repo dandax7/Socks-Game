@@ -8,7 +8,14 @@
 
 #import "SockSprite.h"
 
-static NSMutableArray *g_sockTextures;
+static NSMutableArray* g_sockTexturesManyShapes;
+static NSMutableArray* g_sockTexturesOneShape;
+static BOOL g_useManyShapes = NO;
+
+NSMutableArray* currentShapesArray()
+{
+    return g_useManyShapes ? g_sockTexturesManyShapes : g_sockTexturesOneShape;
+}
 
 @implementation SockSprite
 @synthesize moving_touch;
@@ -38,7 +45,8 @@ static NSMutableArray *g_sockTextures;
             break;
     }
 
-    g_sockTextures = [[NSMutableArray alloc]initWithCapacity: (socks_end - 1) * (pattern_end - 1)];
+    g_sockTexturesManyShapes = [[NSMutableArray alloc]initWithCapacity: (socks_end - 1) * (pattern_end - 1)];
+    g_sockTexturesOneShape = [[NSMutableArray alloc]initWithCapacity: pattern_end - 1];
     
     NSMutableArray *patterns = [[NSMutableArray alloc] initWithCapacity: (pattern_end - 1)];
     
@@ -66,7 +74,11 @@ static NSMutableArray *g_sockTextures;
             CIImage *result = [patternFilter outputImage];
             CGImageRef cgImage = [context createCGImage:result fromRect:[result extent]];
             SKTexture *sock_txture = [SKTexture textureWithCGImage: cgImage];
-            [g_sockTextures addObject: sock_txture];
+            [g_sockTexturesManyShapes addObject: sock_txture];
+            if (socks == 5)
+            {
+                [g_sockTexturesOneShape addObject: sock_txture];
+            }
             CGImageRelease(cgImage);
             
             progress_cb(++done/ total);
@@ -74,10 +86,11 @@ static NSMutableArray *g_sockTextures;
     }
 }
 
+
 + (SockSprite*) sockNumber: (int) num
 {
     SockSprite *new_sprite = [SockSprite
-                              spriteNodeWithTexture: g_sockTextures[num]
+                              spriteNodeWithTexture: currentShapesArray() [num]
                               size: CGSizeMake(40,60)];
     new_sprite.sock_number = num;
     new_sprite.out_of_play = NO;
@@ -86,7 +99,12 @@ static NSMutableArray *g_sockTextures;
 
 + (int) totalSocks
 {
-    return (int)g_sockTextures.count;
+    return (int)currentShapesArray().count;
+}
+
++ (void)revealManyShapes: (BOOL) yn
+{
+    g_useManyShapes = yn;
 }
 
 - (void)startFlowWith: (CGFloat)new_speed turn:(CGFloat)degree
@@ -123,10 +141,6 @@ static NSMutableArray *g_sockTextures;
     other.physicsBody.categoryBitMask = 0;
     other.physicsBody.contactTestBitMask = 0;
 
-    // put the other sock close to us
-    other.position = CGPointMake(self.position.x - 8,
-                                 self.position.y + 12);
-
     // score animation
     SKLabelNode *plus = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     plus.fontSize = 20;
@@ -138,14 +152,33 @@ static NSMutableArray *g_sockTextures;
     SKAction *explode = [SKAction group: @[blow_up, disappear]];
     [plus runAction: [SKAction sequence:@[explode, [SKAction removeFromParent]]]];
     [self.parent addChild: plus];
-
-    // sock animation
-    SKAction *move_away = [SKAction moveByX: x y:y duration:duration * .66];
+    
+    // new position
+    CGPoint c1 = self.position;
+    CGPoint c2 = other.position;
+    
+    // bring them closer
+    CGFloat c1xd = (c2.x - c1.x) * .4;
+    CGFloat c1yd = (c2.y - c1.y) * .4;
+    CGFloat c2xd = (c1.x - c2.x) * .4;
+    CGFloat c2yd = (c1.y - c2.y) * .4;
+    
+    SKAction *move_close1 = [SKAction moveByX: c1xd y:c1yd duration: duration*.33];
+    SKAction *move_close2 = [SKAction moveByX: c2xd y:c2yd duration: duration*.33];
+    //SKAction *move_close1 = [SKAction moveByX: 50 y:50 duration: duration*.33];
+    //SKAction *move_close2 = [SKAction moveByX: 50 y:50 duration: duration*.33];
     SKAction *straight = [SKAction rotateToAngle:0 duration:duration * .33];
-    SKAction *exit = [SKAction sequence: @[straight, move_away, [SKAction removeFromParent]]];
+    
+    SKAction *straight_n_tight1 = [SKAction group: @[move_close1, straight]];
+    SKAction *straight_n_tight2 = [SKAction group: @[move_close2, straight]];
 
-    [self runAction: exit];
-    [other runAction: exit];
+    SKAction *move_away = [SKAction moveByX: x y:y duration:duration * .66];
+    
+    SKAction *exit1 = [SKAction sequence: @[ straight_n_tight1, move_away, [SKAction removeFromParent]]];
+    SKAction *exit2 = [SKAction sequence: @[ straight_n_tight2, move_away, [SKAction removeFromParent]]];
+
+    [self runAction: exit1];
+    [other runAction: exit2];
 }
 
 - (CGPoint)futurePoint:(NSTimeInterval)future

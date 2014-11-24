@@ -19,7 +19,7 @@ enum ColliosionBitMask
 };
 
 const int PAUSE_STEPS = 10; // higher number causes longer pausing
-const int WATER_HEIGHT = 60; // has to be higher then iAd bar, hard code for now
+const int WATER_HEIGHT = 70; // has to be higher then iAd bar, hard code for now
 
 @implementation SocksScene
 @synthesize gameDelegate;
@@ -127,18 +127,60 @@ const int WATER_HEIGHT = 60; // has to be higher then iAd bar, hard code for now
 
 -(void)createWater:(CGSize)size
 {
-    UIColor* transparent =[UIColor colorWithRed:0 green:0.1 blue:0.9 alpha:0.5];
-    SKSpriteNode *water = [SKSpriteNode spriteNodeWithColor: transparent size:size];
-    water.position = CGPointMake(size.width/2, size.height/2);
+    SKSpriteNode *water1 = [SKSpriteNode spriteNodeWithImageNamed: @"wave-box-wide.png"];
+    SKSpriteNode *water2 = [SKSpriteNode spriteNodeWithImageNamed: @"wave-box-wide.png"];
+    SKSpriteNode *water3 = [SKSpriteNode spriteNodeWithImageNamed: @"wave-box-wide.png"];
+    SKSpriteNode *water4 = [SKSpriteNode spriteNodeWithImageNamed: @"wave-box-wide.png"];
     
-    CGSize phys_size = size;
+    // lets match the water height to our hight, but width will be longer
+    CGFloat scale_fact = size.height / water1.size.height;
+    CGSize water_size = water1.size;
+    water1.size = CGSizeMake(water_size.width * scale_fact, water_size.height * scale_fact);
+    water1.position = CGPointMake(size.width/2, size.height/2);
+    
+    // same size/position
+    water2.size = water1.size;    water2.position = water1.position;
+    water3.size = water1.size;    water3.position = water1.position;
+    water4.size = water1.size;    water4.position = water1.position;
+    
+    // contants should only be on one of them
+    CGSize phys_size = water1.size;
     phys_size.height *= .6;
-    water.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize: phys_size];
-    water.physicsBody.contactTestBitMask = SockMask;
-    water.physicsBody.categoryBitMask = WaterMask;
-    water.physicsBody.collisionBitMask = 0;
+    water1.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize: phys_size];
+    water1.physicsBody.contactTestBitMask = SockMask;
+    water1.physicsBody.categoryBitMask = WaterMask;
+    water1.physicsBody.collisionBitMask = 0;
+
+    CGFloat fwd_speed = 30;
     
-    [self addChild: water];
+    SKAction *move_wave = [SKAction sequence: @[[SKAction moveByX: fwd_speed y: - 2.9 duration:.5],
+                                                [SKAction moveByX: fwd_speed y: - 1.5 duration:.5],
+                                                [SKAction moveByX: fwd_speed y: - 1.0 duration:.5],
+                                                [SKAction moveByX: fwd_speed y: 0 duration:.5],
+                                                [SKAction moveByX: fwd_speed y: 1.0 duration:.5],
+                                                [SKAction moveByX: fwd_speed y: 1.5 duration:.5],
+                                                [SKAction moveByX: fwd_speed y: 2.9 duration:.5],
+                                                [SKAction moveByX: fwd_speed y: 0 duration:.5]]];
+    SKAction *move_wave_back = [move_wave reversedAction];
+    SKAction *move_wave_back_forth = [SKAction sequence: @[move_wave, move_wave_back]];
+    
+    
+    [water1 runAction: [SKAction repeatActionForever: move_wave_back_forth]];
+    water1.speed = 2;
+    water1.xScale = 5;
+    [water2 runAction: [SKAction repeatActionForever: move_wave_back_forth]];
+    water2.speed = 3;
+    water2.xScale = 6;
+    [water3 runAction: [SKAction repeatActionForever: move_wave_back_forth]];
+    water3.speed = 5;
+    water3.xScale = 7;
+    [water4 runAction: [SKAction repeatActionForever: move_wave_back_forth]];
+    water4.speed = 7;
+    water4.xScale = 8;
+    [self addChild: water1];
+    [self addChild: water2];
+    [self addChild: water3];
+    [self addChild: water4];
 }
 
 -(void)flowSock:(SockSprite*)sock
@@ -286,7 +328,7 @@ const int WATER_HEIGHT = 60; // has to be higher then iAd bar, hard code for now
     
     sockA.out_of_play = YES;
     sockB.out_of_play = YES;
-    
+        
     int score = [gameDelegate socksMatched];
     [sockA moveAwayByX:-self.size.width y:0 with: sockB score: score duration:1.5];
     
@@ -371,7 +413,9 @@ const int WATER_HEIGHT = 60; // has to be higher then iAd bar, hard code for now
         // return one of the socks we have
         
         int rand_sock = (int)arc4random_uniform((uint32_t)existing_socks.count);
-        NSLog(@"Creating same as existing sock number %d (of %lu)", rand_sock, existing_socks.count);
+        NSLog(@"Creating same as existing sock number %d (of %lu)",
+              rand_sock,
+              (unsigned long)existing_socks.count);
 
         SockSprite *rand_sock_obj = existing_socks[rand_sock];
         return rand_sock_obj.sock_number;
