@@ -32,7 +32,7 @@
 -(IBAction) gameOverPressed:(id)sender;
 -(IBAction) pauseUnpause:(id)button;
 - (void) sockLost;
-- (int) socksMatched;
+- (MatchedResult) socksMatched;
 - (int) unmatchedSock;
 - (void) gameOver;
 

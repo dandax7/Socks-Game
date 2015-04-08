@@ -126,7 +126,7 @@ NSMutableArray* currentShapesArray()
 - (void)moveAwayByX:(CGFloat)x
                   y:(CGFloat)y
                with:(SockSprite*)other
-              score:(int)score
+        matchResult:(MatchedResult)match
            duration:(NSTimeInterval)duration
 {
     // out of play, no physicsContact, no other annimations
@@ -142,16 +142,16 @@ NSMutableArray* currentShapesArray()
     other.physicsBody.contactTestBitMask = 0;
 
     // score animation
-    SKLabelNode *plus = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    plus.fontSize = 20;
-    plus.fontColor = [UIColor greenColor];
-    plus.text = [NSString stringWithFormat: @"+%d", score];
-    plus.position = self.position;
-    SKAction *blow_up = [SKAction scaleBy: 2 duration:3];
-    SKAction *disappear = [SKAction fadeAlphaTo:0 duration:3];
-    SKAction *explode = [SKAction group: @[blow_up, disappear]];
-    [plus runAction: [SKAction sequence:@[explode, [SKAction removeFromParent]]]];
-    [self.parent addChild: plus];
+    {
+        SKLabelNode *plus = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+        plus.fontSize = 20;
+        plus.fontColor = [UIColor greenColor];
+        plus.text = [NSString stringWithFormat: @"+%d", match.score];
+        plus.position = self.position;
+        SKAction *move_away = [SKAction moveTo:match.move_to duration:3];
+        [plus runAction: [SKAction sequence:@[move_away, [SKAction removeFromParent]]]];
+        [self.parent addChild: plus];
+    }
     
     // new position
     CGPoint c1 = self.position;

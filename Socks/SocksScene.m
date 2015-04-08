@@ -29,6 +29,7 @@ const int WATER_HEIGHT = 70; // has to be higher then iAd bar, hard code for now
 {
     if (self = [super initWithSize:size])
     {
+        scheduled_message = nil;
         last_create = 0;
         last_create_attempt = 0;
         system_paused = NO;
@@ -90,8 +91,8 @@ const int WATER_HEIGHT = 70; // has to be higher then iAd bar, hard code for now
         if ([child isKindOfClass: [SockSprite class]])
         {
             SockSprite *sock = (SockSprite*)child;
-            int score = [gameDelegate unmatchedSock];
-            [sock moveAwayByX: -self.size.width y:0 with:nil score: score duration:2];
+            MatchedResult mr = {[gameDelegate unmatchedSock], CGPointMake(0, 0)};
+            [sock moveAwayByX: -self.size.width y:0 with:nil matchResult: mr duration:2];
             child_count++;
         }
     }
@@ -127,10 +128,10 @@ const int WATER_HEIGHT = 70; // has to be higher then iAd bar, hard code for now
 
 -(void)createWater:(CGSize)size
 {
-    SKSpriteNode *water1 = [SKSpriteNode spriteNodeWithImageNamed: @"wave-box-wide.png"];
-    SKSpriteNode *water2 = [SKSpriteNode spriteNodeWithImageNamed: @"wave-box-wide.png"];
-    SKSpriteNode *water3 = [SKSpriteNode spriteNodeWithImageNamed: @"wave-box-wide.png"];
-    SKSpriteNode *water4 = [SKSpriteNode spriteNodeWithImageNamed: @"wave-box-wide.png"];
+    SKSpriteNode *water1 = [SKSpriteNode spriteNodeWithImageNamed: @"wave8.png"];
+    SKSpriteNode *water2 = [SKSpriteNode spriteNodeWithImageNamed: @"wave8.png"];
+    SKSpriteNode *water3 = [SKSpriteNode spriteNodeWithImageNamed: @"wave8.png"];
+    SKSpriteNode *water4 = [SKSpriteNode spriteNodeWithImageNamed: @"wave8.png"];
     
     // lets match the water height to our hight, but width will be longer
     CGFloat scale_fact = size.height / water1.size.height;
@@ -166,17 +167,17 @@ const int WATER_HEIGHT = 70; // has to be higher then iAd bar, hard code for now
     
     
     [water1 runAction: [SKAction repeatActionForever: move_wave_back_forth]];
-    water1.speed = 2;
-    water1.xScale = 5;
+    water1.speed = .2;
+    water1.alpha = .9;
     [water2 runAction: [SKAction repeatActionForever: move_wave_back_forth]];
-    water2.speed = 3;
-    water2.xScale = 6;
+    water2.speed = .3;
+    water2.alpha = .9;
     [water3 runAction: [SKAction repeatActionForever: move_wave_back_forth]];
-    water3.speed = 5;
-    water3.xScale = 7;
+    water3.speed = .5;
+    water3.alpha = .9;
     [water4 runAction: [SKAction repeatActionForever: move_wave_back_forth]];
-    water4.speed = 7;
-    water4.xScale = 8;
+    water4.speed = .7;
+    water4.alpha = .9;
     [self addChild: water1];
     [self addChild: water2];
     [self addChild: water3];
@@ -207,6 +208,17 @@ const int WATER_HEIGHT = 70; // has to be higher then iAd bar, hard code for now
 
     // we want the socks to go through each other
     sock.physicsBody.collisionBitMask = 0;
+}
+
+-(void)scheduleMessage:(NSString*)message completion: (void (^)(void))comp_block
+{
+    SKLabelNode *msg = [SKLabelNode labelNodeWithFontNamed: @"Marker Felt Thin"];
+    [msg setText:message];
+    msg.position = CGPointMake(self.size.width/2, self.size.height);
+    [msg runAction: [SKAction sequence: @[[SKAction moveToY: 0 duration: 6],
+                                          [SKAction runBlock:comp_block],
+                                          [SKAction removeFromParent]]]];
+    [self addChild: msg];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -329,8 +341,9 @@ const int WATER_HEIGHT = 70; // has to be higher then iAd bar, hard code for now
     sockA.out_of_play = YES;
     sockB.out_of_play = YES;
         
-    int score = [gameDelegate socksMatched];
-    [sockA moveAwayByX:-self.size.width y:0 with: sockB score: score duration:1.5];
+    MatchedResult match = [gameDelegate socksMatched];
+    match.move_to = [self convertPointFromView: match.move_to];
+    [sockA moveAwayByX:-self.size.width y:0 with: sockB matchResult: match duration:1.5];
     
     // TODO music
 }

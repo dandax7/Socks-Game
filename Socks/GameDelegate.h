@@ -8,9 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+typedef struct _MatchedResult
+{
+    int score;
+    CGPoint move_to;
+} MatchedResult;
+
 @protocol GameDelegate <NSObject>
 
 - (void) sockLost;
-- (int) socksMatched;
+- (MatchedResult) socksMatched;
 - (int) unmatchedSock;
 @end

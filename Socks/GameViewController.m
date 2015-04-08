@@ -48,10 +48,7 @@
     self.socksScene.gameDelegate = self;
     [self.skView presentScene: self.socksScene];
    
-    /*
-    // start at rinse
     [self startRinse];
-     */
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner
@@ -85,19 +82,23 @@ didFailToReceiveAdWithError:(NSError *)error
 {
     [self removeFromParentViewController];
 }
-/*
+
 - (void)startRinse
 {
     if (socksScene.isGameOver) return;
-    
+
+    [self.socksScene scheduleMessage:@"Rinse" completion:^{} ];
+
     score_for_sock = 10;
     self.socksScene.speed = 1;
-   // [self performSelector:@selector(startWash) withObject:nil afterDelay:20];
+    [self performSelector:@selector(startWash) withObject:nil afterDelay:20];
 }
 
 - (void)startWash
 {
     if (socksScene.isGameOver) return;
+
+    [self.socksScene scheduleMessage:@"Wash" completion:^{} ];
 
     score_for_sock = 20;
     self.socksScene.speed = 1.5;
@@ -108,11 +109,13 @@ didFailToReceiveAdWithError:(NSError *)error
 {
     if (socksScene.isGameOver) return;
 
-    score_for_sock = 10;
+    [self.socksScene scheduleMessage:@"Spin" completion:^{} ];
+
+    score_for_sock = 40;
     self.socksScene.speed = 2;
     [self performSelector:@selector(startRinse) withObject:nil afterDelay:20];
 }
-*/
+
 - (void) sockLost
 {
     if (lost_socks)
@@ -129,14 +132,19 @@ didFailToReceiveAdWithError:(NSError *)error
 {
     CGPoint old_center = v.center;
     CGPoint new_center = CGPointMake(old_center.x + 20, old_center.y);
-    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:.2 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut animations:^{v.center = new_center;v.center = old_center;} completion:nil];
+    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:.2 initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseInOut animations:^{v.center = new_center;} completion:nil];
 }
 
-- (int) socksMatched
+- (MatchedResult) socksMatched
 {
     score += score_for_sock;
     score_lbl.text = [NSString stringWithFormat:@"%d", score];
-    return score_for_sock;
+    CGPoint score_center = self.score_lbl.center;
+    score_center = [self.score_lbl.superview
+                        convertPoint: score_center
+                        toView: skView];
+    MatchedResult ret = {score_for_sock, score_center};
+    return ret;
 }
 
 - (int) unmatchedSock

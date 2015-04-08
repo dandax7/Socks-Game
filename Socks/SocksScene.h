@@ -16,6 +16,7 @@
 {
     CFTimeInterval last_create;
     CFTimeInterval last_create_attempt;
+    NSString *scheduled_message;
 
     BOOL system_paused;
     BOOL button_paused;
@@ -32,6 +33,7 @@
 @property(nonatomic, retain) SKLabelNode *pause_lbl;
 @property(nonatomic, retain) id<GameDelegate> gameDelegate;
 
+-(void)scheduleMessage:(NSString*)message completion: (void (^)(void))comp_block;
 -(void)createWater: (CGSize) size;
 -(void)flowBackground: (CGSize) size;
 -(void)flowSock:(SockSprite*)sock;

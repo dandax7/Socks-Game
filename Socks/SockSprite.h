@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "GameDelegate.h"
 
 typedef void(^float_callback)(float);
 
@@ -29,7 +30,7 @@ typedef void(^float_callback)(float);
 - (void)moveAwayByX:(CGFloat)x
                   y:(CGFloat)y
                with:(SockSprite*)other
-              score:(int)score
+        matchResult:(MatchedResult)match
            duration:(NSTimeInterval)duration;
 - (CGPoint)futurePoint:(NSTimeInterval)future;
 @end
