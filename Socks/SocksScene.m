@@ -19,7 +19,7 @@ enum ColliosionBitMask
 };
 
 const int PAUSE_STEPS = 10; // higher number causes longer pausing
-const int WATER_HEIGHT = 70; // has to be higher then iAd bar, hard code for now
+const int WATER_HEIGHT = 75; // has to be higher then iAd bar, hard code for now
 
 @implementation SocksScene
 @synthesize gameDelegate;
