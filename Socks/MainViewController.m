@@ -74,6 +74,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    NSLog(@"Main AD error: %@", error);
+}
+
+
 /*
 #pragma mark - Navigation
 

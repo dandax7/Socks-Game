@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="jqs-sC-Tv9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="jqs-sC-Tv9">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <scenes>
         <!--Game View Controller-->
@@ -32,6 +32,7 @@
                                 <state key="normal" title="Button" image="pause-outline.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="selected" image="pause-hilite.png"/>
                                 <state key="highlighted" image="pause-hilite.png"/>
                                 <connections>
                                     <action selector="pauseUnpause:" destination="LcV-zE-7iS" eventType="touchUpInside" id="SKg-Aa-7lD"/>
@@ -41,18 +42,6 @@
                                 <rect key="frame" x="0.0" y="60" width="320" height="508"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jR3-q6-8mI">
-                                <rect key="frame" x="270" y="460" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="KNi-FA-iX8"/>
-                                    <constraint firstAttribute="width" constant="50" id="tZQ-6S-cmd"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="25"/>
-                                <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <size key="shadowOffset" width="2" height="2"/>
-                            </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="izM-bg-bWW">
                                 <rect key="frame" x="0.0" y="234" width="320" height="100"/>
                                 <constraints>
@@ -60,9 +49,12 @@
                                     <constraint firstAttribute="height" constant="100" id="f14-wd-us1"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="40"/>
-                                <state key="normal" title="GAME OVER">
+                                <state key="normal" title="YOU LOST">
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="gameOverPressed:" destination="LcV-zE-7iS" eventType="touchUpInside" id="2Lw-Co-MSr"/>
@@ -73,19 +65,10 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="9Nr-fz-pd8"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="LcV-zE-7iS" id="eYo-zk-7Gw"/>
+                                </connections>
                             </adBannerView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rem-4U-rjw">
-                                <rect key="frame" x="0.0" y="460" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="n2M-9R-Jbz"/>
-                                    <constraint firstAttribute="height" constant="50" id="xV9-ur-V5d"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="25"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <size key="shadowOffset" width="-2" height="2"/>
-                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sox-falling.png" translatesAutoresizingMaskIntoConstraints="NO" id="q6b-eZ-smI">
                                 <rect key="frame" x="5" y="20" width="73" height="35"/>
                                 <constraints>
@@ -103,12 +86,8 @@
                             <constraint firstAttribute="bottom" secondItem="izb-aU-rKo" secondAttribute="bottom" id="TU9-fd-Tk4"/>
                             <constraint firstItem="Ev3-a3-RvW" firstAttribute="top" secondItem="kpK-tx-m5W" secondAttribute="top" id="WrE-5D-cb8"/>
                             <constraint firstItem="izb-aU-rKo" firstAttribute="leading" secondItem="kpK-tx-m5W" secondAttribute="leading" id="Xih-Nz-sFb"/>
-                            <constraint firstAttribute="trailing" secondItem="jR3-q6-8mI" secondAttribute="trailing" id="Y1g-y2-0GU"/>
-                            <constraint firstItem="rem-4U-rjw" firstAttribute="leading" secondItem="kpK-tx-m5W" secondAttribute="leading" id="YYA-Zf-b3j"/>
                             <constraint firstAttribute="trailing" secondItem="SVB-hC-ZYp" secondAttribute="trailing" id="YaY-R1-Ab6"/>
                             <constraint firstAttribute="bottom" secondItem="SVB-hC-ZYp" secondAttribute="bottom" id="bVp-qZ-38L"/>
-                            <constraint firstAttribute="bottom" secondItem="rem-4U-rjw" secondAttribute="bottom" constant="58" id="cME-Bb-z6F"/>
-                            <constraint firstAttribute="bottom" secondItem="jR3-q6-8mI" secondAttribute="bottom" constant="58" id="cfN-if-K7K"/>
                             <constraint firstItem="q6b-eZ-smI" firstAttribute="leading" secondItem="kpK-tx-m5W" secondAttribute="leading" constant="5" id="oEo-Lc-rRT"/>
                             <constraint firstAttribute="centerY" secondItem="izM-bg-bWW" secondAttribute="centerY" id="uO4-u7-nxj"/>
                             <constraint firstItem="SVB-hC-ZYp" firstAttribute="leading" secondItem="kpK-tx-m5W" secondAttribute="leading" id="vLA-Fs-ErO"/>
@@ -122,9 +101,7 @@
                     <connections>
                         <outlet property="adView" destination="izb-aU-rKo" id="DCr-hK-Z9W"/>
                         <outlet property="gameOverBtn" destination="izM-bg-bWW" id="R73-s5-L7i"/>
-                        <outlet property="lost_lbl" destination="rem-4U-rjw" id="pc6-cc-h1V"/>
                         <outlet property="pauseBtn" destination="N8I-zE-XHZ" id="D3N-Hc-xsa"/>
-                        <outlet property="score_lbl" destination="jR3-q6-8mI" id="cfZ-CJ-lQq"/>
                         <outlet property="skView" destination="SVB-hC-ZYp" id="qYk-Fc-Iyw"/>
                     </connections>
                 </viewController>
@@ -217,6 +194,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="xzV-jq-L3v"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="jqs-sC-Tv9" id="Y8T-5g-GIl"/>
+                                </connections>
                             </adBannerView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oQB-Jc-0na">
                                 <rect key="frame" x="0.0" y="322.5" width="126" height="36"/>

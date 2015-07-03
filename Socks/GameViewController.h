@@ -9,16 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
 #import <iAd/iAd.h>
-#import "GameDelegate.h"
 
 @class SocksScene;
+@class ScorePolicy;
 
-@interface GameViewController : UIViewController<GameDelegate, ADBannerViewDelegate>
+@interface GameViewController : UIViewController<ADBannerViewDelegate>
 {
-    int lost_socks;
-    int score;
-    int score_for_sock;
+    ScorePolicy *score_poly;
 }
+
 @property (nonatomic,retain) SocksScene* socksScene;
 
 @property (nonatomic,retain) IBOutlet SKView *skView;
@@ -31,10 +30,8 @@
 
 -(IBAction) gameOverPressed:(id)sender;
 -(IBAction) pauseUnpause:(id)button;
-- (void) sockLost;
-- (MatchedResult) socksMatched;
-- (int) unmatchedSock;
-- (void) gameOver;
+- (void) gameLost;
+- (void) gameWon;
 
 
 @end

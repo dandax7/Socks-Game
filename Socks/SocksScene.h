@@ -8,37 +8,55 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@protocol GameDelegate;
 @class SockSprite;
 @class Score;
+@class ScorePolicy;
 
 @interface SocksScene : SKScene <SKPhysicsContactDelegate>
 {
     CFTimeInterval last_create;
     CFTimeInterval last_create_attempt;
-    NSString *scheduled_message;
 
-    BOOL system_paused;
-    BOOL button_paused;
-    BOOL game_over;
+    // score
+    ScorePolicy * score_policy;
     
+    NSMutableArray *sock_lives;
+    
+    // game state
+    BOOL ad_paused;
+    BOOL system_paused;
+    CGFloat saved_speed;
+    BOOL game_over;
+    BOOL did_win;
+    BOOL button_paused;        // if paused by button, even if animating pause
     int pause_steps_to_take;   // steps left to take pausing
     int unpause_steps_to_take; // steps left to take unpausing
+    
     //CGFloat water_height; TODO: make id dynamic
     
+    int            shapes;
     CFTimeInterval last_frame_time;
     CFTimeInterval running_time; // time we've been running unpaused
+    CFTimeInterval next_cycle;
 }
 
+@property(nonatomic, retain) SKLabelNode *score_label;
+@property(nonatomic, retain) SKLabelNode *score_shadow;
 @property(nonatomic, retain) SKLabelNode *pause_lbl;
-@property(nonatomic, retain) id<GameDelegate> gameDelegate;
+@property(nonatomic, readonly, getter=isInPlay) BOOL inPlay;
+@property(copy) void (^doOnGameOver)(void);
+@property(copy) void (^doOnWin)(void);
 
--(void)scheduleMessage:(NSString*)message completion: (void (^)(void))comp_block;
+-(instancetype) initWithSize:(CGSize) size scorePolicy: (ScorePolicy*)spoly;
 -(void)createWater: (CGSize) size;
 -(void)flowBackground: (CGSize) size;
 -(void)flowSock:(SockSprite*)sock;
 -(void)physicsOnSock:(SockSprite*)sock;
 -(void)pauseUnpause:(id)button;
+-(void)systemPause;
+-(void)systemUnpause;
+-(void)adPause;
+-(void)adUnpause;
 -(void)gameOver;
 -(BOOL)isGameOver;
 

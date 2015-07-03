@@ -16,7 +16,6 @@
 		9823406E18DFC9DB0090C3FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823406D18DFC9DB0090C3FE /* main.m */; };
 		9823407218DFC9DB0090C3FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823407118DFC9DB0090C3FE /* AppDelegate.m */; };
 		9823407518DFC9DB0090C3FE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9823407318DFC9DB0090C3FE /* Main.storyboard */; };
-		9823407818DFC9DB0090C3FE /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823407718DFC9DB0090C3FE /* GameViewController.m */; };
 		9823407B18DFC9DB0090C3FE /* SocksScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823407A18DFC9DB0090C3FE /* SocksScene.m */; };
 		9823407F18DFC9DB0090C3FE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9823407E18DFC9DB0090C3FE /* Images.xcassets */; };
 		9823408618DFC9DB0090C3FE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9823408518DFC9DB0090C3FE /* XCTest.framework */; };
@@ -24,6 +23,11 @@
 		9823408818DFC9DB0090C3FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9823406318DFC9DB0090C3FE /* UIKit.framework */; };
 		9823409018DFC9DB0090C3FE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9823408E18DFC9DB0090C3FE /* InfoPlist.strings */; };
 		9823409218DFC9DB0090C3FE /* SocksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823409118DFC9DB0090C3FE /* SocksTests.m */; };
+		9831A23F1AEF5A3E007D31D7 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9831A23E1AEF5A3E007D31D7 /* GameViewController.m */; };
+		983F6B431AF19C16001555B3 /* ScorePolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 983F6B421AF19C16001555B3 /* ScorePolicy.m */; };
+		983F6B451AF1C0ED001555B3 /* sock-plain-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 983F6B441AF1C0ED001555B3 /* sock-plain-small.png */; };
+		983F6B471AF1C1CF001555B3 /* sock-plain-small-red.png in Resources */ = {isa = PBXBuildFile; fileRef = 983F6B461AF1C1CF001555B3 /* sock-plain-small-red.png */; };
+		983F6B4A1B0BE4B0001555B3 /* SockMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 983F6B491B0BE4B0001555B3 /* SockMatrix.m */; };
 		984CC66A198FCB1C007877A5 /* ScoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 984CC669198FCB1C007877A5 /* ScoreManager.m */; };
 		984E2970195BDB3B00EB0F77 /* plain-sock.png in Resources */ = {isa = PBXBuildFile; fileRef = 984E296F195BDB3B00EB0F77 /* plain-sock.png */; };
 		984E2972195BDD9700EB0F77 /* red-plain-sock.png in Resources */ = {isa = PBXBuildFile; fileRef = 984E2971195BDD9700EB0F77 /* red-plain-sock.png */; };
@@ -45,6 +49,8 @@
 		98607B981939382100B93120 /* sock-monster-bent-head.png in Resources */ = {isa = PBXBuildFile; fileRef = 98607B961939382100B93120 /* sock-monster-bent-head.png */; };
 		98607B991939382100B93120 /* sock-monster-head.png in Resources */ = {isa = PBXBuildFile; fileRef = 98607B971939382100B93120 /* sock-monster-head.png */; };
 		98607B9B19393A4000B93120 /* sock-monster-lil-bent-head.png in Resources */ = {isa = PBXBuildFile; fileRef = 98607B9A19393A4000B93120 /* sock-monster-lil-bent-head.png */; };
+		98917AB31B1D4A9C003CDF81 /* small-bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 98917AB21B1D4A9C003CDF81 /* small-bubble.png */; };
+		98917AB61B1D4B01003CDF81 /* Bubbles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 98917AB41B1D4B01003CDF81 /* Bubbles.sks */; };
 		98A4A15C18E3D4F100EFBCF4 /* sock1.png in Resources */ = {isa = PBXBuildFile; fileRef = 98A4A15718E3D4F100EFBCF4 /* sock1.png */; };
 		98A4A15D18E3D4F100EFBCF4 /* sock2.png in Resources */ = {isa = PBXBuildFile; fileRef = 98A4A15818E3D4F100EFBCF4 /* sock2.png */; };
 		98A4A15E18E3D4F100EFBCF4 /* sock3.png in Resources */ = {isa = PBXBuildFile; fileRef = 98A4A15918E3D4F100EFBCF4 /* sock3.png */; };
@@ -90,7 +96,6 @@
 		9823407118DFC9DB0090C3FE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		9823407418DFC9DB0090C3FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9823407618DFC9DB0090C3FE /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
-		9823407718DFC9DB0090C3FE /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		9823407918DFC9DB0090C3FE /* SocksScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocksScene.h; sourceTree = "<group>"; };
 		9823407A18DFC9DB0090C3FE /* SocksScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocksScene.m; sourceTree = "<group>"; };
 		9823407E18DFC9DB0090C3FE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -99,6 +104,13 @@
 		9823408D18DFC9DB0090C3FE /* SocksTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SocksTests-Info.plist"; sourceTree = "<group>"; };
 		9823408F18DFC9DB0090C3FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9823409118DFC9DB0090C3FE /* SocksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocksTests.m; sourceTree = "<group>"; };
+		9831A23E1AEF5A3E007D31D7 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		983F6B411AF19C16001555B3 /* ScorePolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScorePolicy.h; sourceTree = "<group>"; };
+		983F6B421AF19C16001555B3 /* ScorePolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScorePolicy.m; sourceTree = "<group>"; };
+		983F6B441AF1C0ED001555B3 /* sock-plain-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sock-plain-small.png"; path = "../../Images/socks/sock-plain-small.png"; sourceTree = "<group>"; };
+		983F6B461AF1C1CF001555B3 /* sock-plain-small-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sock-plain-small-red.png"; path = "../../Images/socks/sock-plain-small-red.png"; sourceTree = "<group>"; };
+		983F6B481B0BE4B0001555B3 /* SockMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SockMatrix.h; sourceTree = "<group>"; };
+		983F6B491B0BE4B0001555B3 /* SockMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SockMatrix.m; sourceTree = "<group>"; };
 		984CC668198FCB1C007877A5 /* ScoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreManager.h; sourceTree = "<group>"; };
 		984CC669198FCB1C007877A5 /* ScoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreManager.m; sourceTree = "<group>"; };
 		984E296F195BDB3B00EB0F77 /* plain-sock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plain-sock.png"; path = "../../Images/socks/plain-sock.png"; sourceTree = "<group>"; };
@@ -124,6 +136,8 @@
 		98607B961939382100B93120 /* sock-monster-bent-head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sock-monster-bent-head.png"; path = "../../Images/socks/sock-monster-bent-head.png"; sourceTree = "<group>"; };
 		98607B971939382100B93120 /* sock-monster-head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sock-monster-head.png"; path = "../../Images/socks/sock-monster-head.png"; sourceTree = "<group>"; };
 		98607B9A19393A4000B93120 /* sock-monster-lil-bent-head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sock-monster-lil-bent-head.png"; path = "../../Images/socks/sock-monster-lil-bent-head.png"; sourceTree = "<group>"; };
+		98917AB21B1D4A9C003CDF81 /* small-bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "small-bubble.png"; path = "../../Images/small-bubble.png"; sourceTree = "<group>"; };
+		98917AB41B1D4B01003CDF81 /* Bubbles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Bubbles.sks; path = ../Bubbles.sks; sourceTree = "<group>"; };
 		98A4A15718E3D4F100EFBCF4 /* sock1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sock1.png; path = ../../Images/socks/sock1.png; sourceTree = "<group>"; };
 		98A4A15818E3D4F100EFBCF4 /* sock2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sock2.png; path = ../../Images/socks/sock2.png; sourceTree = "<group>"; };
 		98A4A15918E3D4F100EFBCF4 /* sock3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sock3.png; path = ../../Images/socks/sock3.png; sourceTree = "<group>"; };
@@ -139,7 +153,6 @@
 		98F67535196AEE2D0099058F /* drops-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "drops-black.png"; path = "../../Images/Symbols/drops-black.png"; sourceTree = "<group>"; };
 		98F6753A196B9CB00099058F /* swirl-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "swirl-green.png"; path = "../../Images/Symbols/swirl-green.png"; sourceTree = "<group>"; };
 		98F6753B196B9CB00099058F /* swirl-navy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "swirl-navy.png"; path = "../../Images/Symbols/swirl-navy.png"; sourceTree = "<group>"; };
-		98F6753E1970A60D0099058F /* GameDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameDelegate.h; sourceTree = "<group>"; };
 		98F6753F197637310099058F /* sox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sox.png; path = ../../Images/Symbols/sox.png; sourceTree = "<group>"; };
 		98F675411976D0A20099058F /* sox-falling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sox-falling.png"; path = "../../Images/Symbols/sox-falling.png"; sourceTree = "<group>"; };
 		98FED9FB19189FCC00219B3F /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause.png; path = ../../Images/buttons/pause.png; sourceTree = "<group>"; };
@@ -208,23 +221,28 @@
 			isa = PBXGroup;
 			children = (
 				98F6753F197637310099058F /* sox.png */,
+				98917AB21B1D4A9C003CDF81 /* small-bubble.png */,
 				98607B8219266E6A00B93120 /* backgrounds */,
 				98607B81191BDD2100B93120 /* buttons */,
 				98A4A15618E3D4C000EFBCF4 /* socks-images */,
 				9823407318DFC9DB0090C3FE /* Main.storyboard */,
+				98917AB41B1D4B01003CDF81 /* Bubbles.sks */,
 				98B00F9019046C340001CD0D /* Random.h */,
 				98B00F8E19046BCE0001CD0D /* Random.m */,
 				9823407018DFC9DB0090C3FE /* AppDelegate.h */,
 				984CC668198FCB1C007877A5 /* ScoreManager.h */,
 				984CC669198FCB1C007877A5 /* ScoreManager.m */,
+				983F6B411AF19C16001555B3 /* ScorePolicy.h */,
+				983F6B421AF19C16001555B3 /* ScorePolicy.m */,
 				9823407118DFC9DB0090C3FE /* AppDelegate.m */,
 				9852A4501901ADC400CC63E2 /* MainViewController.h */,
 				9852A4511901ADC400CC63E2 /* MainViewController.m */,
-				98F6753E1970A60D0099058F /* GameDelegate.h */,
 				9823407618DFC9DB0090C3FE /* GameViewController.h */,
-				9823407718DFC9DB0090C3FE /* GameViewController.m */,
+				9831A23E1AEF5A3E007D31D7 /* GameViewController.m */,
 				9823407918DFC9DB0090C3FE /* SocksScene.h */,
 				9823407A18DFC9DB0090C3FE /* SocksScene.m */,
+				983F6B481B0BE4B0001555B3 /* SockMatrix.h */,
+				983F6B491B0BE4B0001555B3 /* SockMatrix.m */,
 				9852A43D18E8CEA600CC63E2 /* SockSprite.h */,
 				9852A43E18E8CEA600CC63E2 /* SockSprite.m */,
 				98607B8D19365AD300B93120 /* SockMonster.h */,
@@ -303,12 +321,14 @@
 				98607B961939382100B93120 /* sock-monster-bent-head.png */,
 				98607B9A19393A4000B93120 /* sock-monster-lil-bent-head.png */,
 				98607B971939382100B93120 /* sock-monster-head.png */,
+				983F6B441AF1C0ED001555B3 /* sock-plain-small.png */,
 				9852A44519003B3D00CC63E2 /* pattern1.png */,
 				9852A44B190047B900CC63E2 /* pattern2.png */,
 				9852A449190047B900CC63E2 /* pattern3.png */,
 				9852A44A190047B900CC63E2 /* pattern4.png */,
 				984E296F195BDB3B00EB0F77 /* plain-sock.png */,
 				984E2971195BDD9700EB0F77 /* red-plain-sock.png */,
+				983F6B461AF1C1CF001555B3 /* sock-plain-small-red.png */,
 				98A4A15718E3D4F100EFBCF4 /* sock1.png */,
 				98A4A15818E3D4F100EFBCF4 /* sock2.png */,
 				98A4A15918E3D4F100EFBCF4 /* sock3.png */,
@@ -365,6 +385,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = dantap;
 				TargetAttributes = {
+					9823405B18DFC9DB0090C3FE = {
+						DevelopmentTeam = L33ND8Y63K;
+					};
 					9823408318DFC9DB0090C3FE = {
 						TestTargetID = 9823405B18DFC9DB0090C3FE;
 					};
@@ -397,11 +420,14 @@
 				98F67538196AEE2D0099058F /* drops-green.png in Resources */,
 				9852A44D190047B900CC63E2 /* pattern4.png in Resources */,
 				98FED9FD19189FCC00219B3F /* pause.png in Resources */,
+				983F6B471AF1C1CF001555B3 /* sock-plain-small-red.png in Resources */,
 				9823406C18DFC9DB0090C3FE /* InfoPlist.strings in Resources */,
+				98917AB31B1D4A9C003CDF81 /* small-bubble.png in Resources */,
 				98A4A16018E3D4F100EFBCF4 /* sock5.png in Resources */,
 				98F6753D196B9CB00099058F /* swirl-navy.png in Resources */,
 				98F67540197637310099058F /* sox.png in Resources */,
 				98F675421976D0A20099058F /* sox-falling.png in Resources */,
+				983F6B451AF1C0ED001555B3 /* sock-plain-small.png in Resources */,
 				98607B991939382100B93120 /* sock-monster-head.png in Resources */,
 				98A4A15E18E3D4F100EFBCF4 /* sock3.png in Resources */,
 				98607B71191B127600B93120 /* play-outline.png in Resources */,
@@ -420,6 +446,7 @@
 				98F67539196AEE2D0099058F /* drops-black.png in Resources */,
 				9852A44719003B3D00CC63E2 /* pattern1.png in Resources */,
 				98607B9319365E4800B93120 /* sock-monster-close.png in Resources */,
+				98917AB61B1D4B01003CDF81 /* Bubbles.sks in Resources */,
 				98607B981939382100B93120 /* sock-monster-bent-head.png in Resources */,
 				98F67536196AEE2D0099058F /* washer-green.png in Resources */,
 				984E2970195BDB3B00EB0F77 /* plain-sock.png in Resources */,
@@ -451,13 +478,15 @@
 			files = (
 				98607B8F19365AD300B93120 /* SockMonster.m in Sources */,
 				9823407B18DFC9DB0090C3FE /* SocksScene.m in Sources */,
-				9823407818DFC9DB0090C3FE /* GameViewController.m in Sources */,
 				98B00F8F19046BCE0001CD0D /* Random.m in Sources */,
 				9823407218DFC9DB0090C3FE /* AppDelegate.m in Sources */,
+				9831A23F1AEF5A3E007D31D7 /* GameViewController.m in Sources */,
 				9852A43F18E8CEA600CC63E2 /* SockSprite.m in Sources */,
 				9852A4521901ADC400CC63E2 /* MainViewController.m in Sources */,
 				9823406E18DFC9DB0090C3FE /* main.m in Sources */,
+				983F6B431AF19C16001555B3 /* ScorePolicy.m in Sources */,
 				984CC66A198FCB1C007877A5 /* ScoreManager.m in Sources */,
+				983F6B4A1B0BE4B0001555B3 /* SockMatrix.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,11 +611,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Socks/Socks-Prefix.pch";
 				INFOPLIST_FILE = "Socks/Socks-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -598,11 +630,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Socks/Socks-Prefix.pch";
 				INFOPLIST_FILE = "Socks/Socks-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
